@@ -1,19 +1,39 @@
 import { Request, Response } from "express";
 import { UsuarioRepository } from "../repositories/UsuarioRepository";
-// TODO: import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 
 export class AuthController {
   static async registro(req: Request, res: Response) {
-    // TODO: 1) sacar nombre, email, password de req.body
-    //       2) hashear el password con bcrypt.hash(password, 10)
-    //       3) UsuarioRepository.crear(nombre, email, hash)
-    //       4) OJO: nunca devolver el password_hash en la respuesta
+    try{
+      const {nombre, email, password} = req.body;
+      if(!nombre || !email || !password){
+        return res.status(400).json({ok: false, error: {mensaje: "Faltan datos"}});
+      }
+
+      const existente = await UsuarioRepository.buscarPorEmail(email);
+      if (existente){
+        return res.status(400).json({ok: false, error:{mensaje: "Este mail ya está registrado"}});
+      }
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      const usuario = await UsuarioRepository.crear(nombre, email, passwordHash);
+       res.status(201).json({ ok: true, data: usuario.toJSON() });
+    } catch (e:any){
+        res.status(500).json({ ok: false, error: { mensaje: e.message } });
+    }
   }
 
   static async login(req: Request, res: Response) {
-    // TODO: 1) buscar el usuario por email
-    //       2) comparar el password con bcrypt.compare
-    //       3) si coincide, devolver los datos del usuario (sin el hash)
-    //          si no, 401 "credenciales inválidas"
+     try{
+      const {email, password} = req.body;
+      const usuario = await UsuarioRepository.buscarPorEmail(email);
+      if(!usuario){
+        return res.status(401).json({ok: false, error:{mensaje: "Credenciales inválidas"}});
+      }
+
+      res.json({ok: true, data: usuario.toJSON()});
+     }catch (e:any){
+      res.status(500).json({ok: false, error: {mensaje: e.message}});
+     }
   }
 }

@@ -1,6 +1,3 @@
-// Punto de arranque del servidor. Acá se juntan todas las rutas.
-// Este es el ÚNICO archivo que se ejecuta directamente (npm run dev).
-
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -15,11 +12,4 @@ dotenv.config();
 
 const app = express();
 
-// TODO: app.use(cors()) y app.use(express.json())
-
-// TODO: montar cada router bajo "/api", por ejemplo:
-// app.use("/api", peliculaRoutes);
-// app.use("/api", asientoRoutes);
-// ...y así con el resto
-
-// TODO: app.listen(process.env.PORT, () => console.log(...))
+app.use("/api", asientoRoutes);

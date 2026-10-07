@@ -1,126 +1,96 @@
-import { ComponentProps, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
-import {
-  Alert,
-  Animated,
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  useWindowDimensions,
-} from 'react-native';
-import { Href, useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colores } from '../constants/theme';
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { colores } from "../constants/colores";
 
-type IconName = ComponentProps<typeof Ionicons>['name'];
+type Props = { visible: boolean; cerrar: () => void };
 
-const OPCIONES: { texto: string; icono: IconName; ruta?: Href }[] = [
-  { texto: 'Cartelera / Inicio', icono: 'film-outline', ruta: '/elegir_pelicula' },
-  { texto: 'Candy Bar / Tienda', icono: 'fast-food-outline', ruta: '/tienda' },
-  { texto: 'Promociones', icono: 'pricetag-outline', ruta: '/promociones' },
-  { texto: 'Mi Perfil / Registro', icono: 'person-outline', ruta: '/registro' },
-  { texto: 'Contacto / RRHH', icono: 'call-outline' }, 
-];
+type OpcionProps = {
+  icono: keyof typeof Ionicons.glyphMap;
+  texto: string;
+  onPress: () => void;
+};
 
-/* ---------- Contexto: permite abrir el menú desde cualquier pantalla ---------- */
-
-const MenuContext = createContext<{ abrir: () => void }>({ abrir: () => {} });
-export const useMenu = () => useContext(MenuContext);
-
-export function MenuProvider({ children }: { children: ReactNode }) {
-  const [visible, setVisible] = useState(false);
+function Opcion({ icono, texto, onPress }: OpcionProps) {
   return (
-    <MenuContext.Provider value={{ abrir: () => setVisible(true) }}>
-      {children}
-      <MenuLateral visible={visible} onClose={() => setVisible(false)} />
-    </MenuContext.Provider>
+    <Pressable onPress={onPress} style={estilos.opcion}>
+      <Ionicons name={icono} size={22} color={colores.texto} />
+      <Text style={estilos.opcionTexto}>{texto}</Text>
+    </Pressable>
   );
 }
 
-/* ---------- Botón [☰] ---------- */
-
-export function BotonMenu() {
-  const { abrir } = useMenu();
-  return (
-    <TouchableOpacity onPress={abrir} style={styles.botonMenu} accessibilityLabel="Abrir menú">
-      <Ionicons name="menu" size={26} color="#fff" />
-    </TouchableOpacity>
-  );
-}
-
-/* ---------- Panel lateral ---------- */
-
-function MenuLateral({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+export default function MenuLateral({ visible, cerrar }: Props) {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
-  const ancho = width * 0.75;
-  const x = useRef(new Animated.Value(-ancho)).current;
 
-  // Desliza el panel desde la izquierda cada vez que se abre
-  useEffect(() => {
-    if (visible) {
-      x.setValue(-ancho);
-      Animated.timing(x, { toValue: 0, duration: 220, useNativeDriver: true }).start();
-    }
-  }, [visible, ancho, x]);
+  const irACartelera = () => {
+    cerrar();
+    router.push("/elegir_pelicula");
+  };
 
-  const elegir = (ruta?: Href) => {
-    onClose();
-    if (ruta) router.navigate(ruta);
-    else Alert.alert('Próximamente', 'Esta sección todavía no está disponible.');
+  const irATienda = () => {
+    cerrar();
+    router.push("/tienda");
   };
 
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
-      <View style={styles.contenedor}>
-        <Animated.View
-          style={[styles.panel, { width: ancho, paddingTop: insets.top + 16, transform: [{ translateX: x }] }]}
-        >
-          <Text style={styles.marca}>VAMST CINE 🍿</Text>
-          <Text style={styles.saludo}>Hola, cinéfilo 👋</Text>
-          <View style={styles.divisor} />
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={cerrar}>
+      <View style={estilos.contenedor}>
+        <SafeAreaView style={estilos.panel}>
+          <Text style={estilos.titulo}>VAMST CINE</Text>
+          <Text style={estilos.saludo}>Hola, cinéfilo 👋</Text>
 
-          {OPCIONES.map((op) => (
-            <TouchableOpacity key={op.texto} style={styles.opcion} onPress={() => elegir(op.ruta)}>
-              <Ionicons name={op.icono} size={22} color={colores.rojo} />
-              <Text style={styles.textoOpcion}>{op.texto}</Text>
-            </TouchableOpacity>
-          ))}
+          <Opcion icono="film-outline" texto="Cartelera / Inicio" onPress={irACartelera} />
+          <Opcion icono="fast-food-outline" texto="Candy Bar / Tienda" onPress={irATienda} />
+          <Opcion icono="pricetag-outline" texto="Promociones" onPress={cerrar} />
+          <Opcion icono="person-outline" texto="Mi Perfil / Registro" onPress={cerrar} />
+          <Opcion icono="call-outline" texto="Contacto / RRHH" onPress={cerrar} />
 
-          <View style={styles.divisor} />
-          <View style={styles.opcion}>
-            <Ionicons name="heart" size={22} color="#ff4d6d" />
-            <Text style={styles.textoOpcion}>Créditos</Text>
+          <View style={estilos.creditos}>
+            <Text style={estilos.creditosTitulo}>❤️ Créditos</Text>
+            <Text style={estilos.creditosTexto}>"Gracias a mi gata..."</Text>
           </View>
-          <Text style={styles.credito}>"Gracias a mi gata..."</Text>
 
-          <TouchableOpacity style={[styles.opcion, styles.cerrar]} onPress={onClose}>
-            <Ionicons name="close" size={22} color="#fff" />
-            <Text style={styles.textoOpcion}>Cerrar Menú</Text>
-          </TouchableOpacity>
-        </Animated.View>
+          <Pressable onPress={cerrar} style={estilos.cerrar}>
+            <Ionicons name="close" size={20} color={colores.texto} />
+            <Text style={estilos.opcionTexto}>Cerrar menú</Text>
+          </Pressable>
+        </SafeAreaView>
 
-        {/* Fondo con sombra: al tocarlo se cierra */}
-        <Pressable style={styles.sombra} onPress={onClose} />
+        {/* Pantalla de fondo con sombra: al tocarla se cierra el menú */}
+        <Pressable onPress={cerrar} style={estilos.sombra} />
       </View>
     </Modal>
   );
 }
 
-const styles = StyleSheet.create({
-  botonMenu: { paddingHorizontal: 16 },
-  contenedor: { flex: 1, flexDirection: 'row' },
-  panel: { backgroundColor: colores.fondo, paddingHorizontal: 20, paddingBottom: 24 },
-  sombra: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' },
-  marca: { color: '#fff', fontSize: 20, fontWeight: '700' },
-  saludo: { color: colores.textoSuave, marginTop: 4 },
-  divisor: { height: 1, backgroundColor: colores.borde, marginVertical: 16 },
-  opcion: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12 },
-  textoOpcion: { color: '#fff', fontSize: 16 },
-  credito: { color: colores.textoSuave, fontStyle: 'italic', marginLeft: 34 },
-  cerrar: { marginTop: 'auto' },
+const estilos = StyleSheet.create({
+  contenedor: { flex: 1, flexDirection: "row" },
+  panel: { width: "75%", backgroundColor: colores.tarjeta, padding: 20 },
+  sombra: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)" },
+  titulo: { color: colores.rojo, fontSize: 22, fontWeight: "bold" },
+  saludo: { color: colores.gris, marginTop: 4, marginBottom: 20 },
+  opcion: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 12,
+  },
+  opcionTexto: { color: colores.texto, fontSize: 16 },
+  creditos: {
+    marginTop: 24,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: colores.borde,
+  },
+  creditosTitulo: { color: colores.texto, fontSize: 16 },
+  creditosTexto: { color: colores.gris, marginTop: 4, fontStyle: "italic" },
+  cerrar: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginTop: "auto",
+    paddingVertical: 12,
+  },
 });

@@ -1,9 +1,17 @@
-// (Opcional) Acá podés definir "interfaces" que describan la forma
-// de los datos que viajan entre el front y el back, por ejemplo:
-//
-// export interface CrearReservaDTO {
-//   funcionId: number;
-//   asientosIds: number[];
-// }
-//
-// Sirve para que el body de cada request esté tipado en el controlador.
+// src/types/dto.ts
+export interface CrearReservaDTO {
+  usuarioId: number;
+  funcionId: number;
+  asientosIds: number[];
+}
+
+export interface RegistroUsuarioDTO {
+  nombre: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginDTO {
+  email: string;
+  password: string;
+}

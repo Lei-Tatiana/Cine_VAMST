@@ -1,30 +1,43 @@
-// MODELO BASE (clase abstracta): acá vive el ENCAPSULAMIENTO.
-// "estado" es privado: nadie puede cambiarlo directo, solo a través
-// de reservar() / liberar(), que validan antes de modificarlo.
-
 export abstract class Asiento {
-  private estado: "disponible" | "ocupado" = "disponible";
+  private estado: "disponible" | "ocupado";
 
   constructor(
     public readonly id: number,
     protected readonly fila: string,
-    protected readonly numero: number
-  ) {}
+    protected readonly numero: number,
+    estadoInicial: "disponible" | "ocupado" = "disponible"
+  ) {
+    this.estado = estadoInicial;
+  }
 
   reservar(): void {
-    // TODO: si ya está "ocupado", tirar un Error("El asiento ya está ocupado")
-    // si no, cambiar el estado a "ocupado"
+    if (this.estado === "ocupado"){
+      throw new Error("El asiento ya está ocupado");
+    }
+    this.estado = "ocupado"
   }
 
   liberar(): void {
-    // TODO: volver el estado a "disponible"
+    this.estado = "disponible";
   }
 
   getEstado(): string {
     return this.estado;
   }
 
-  // POLIMORFISMO: cada tipo de asiento va a calcular su precio distinto.
-  // Por eso es abstracto acá y cada clase hija lo implementa a su manera.
   abstract calcularPrecio(precioBase: number): number;
+
+  abstract getTipo(): string;
+
+  toJSON(precioBase: number)
+  {
+    return{
+      id: this.id,
+      fila: this.fila,
+      numero: this.numero, 
+      tipo: this.getTipo,
+      estado: this.estado,
+      precio: this.calcularPrecio(precioBase),
+    };
+  }
 }

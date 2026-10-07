@@ -1,10 +1,8 @@
-// MODELO: agrupa una función, un usuario y una lista de asientos.
-// Acá se usa el polimorfismo de Asiento: no importa si son AsientoComun
-// o AsientoAccesible, calcularTotal() los suma a todos igual.
-
 import { Asiento } from "./Asiento";
 
 export class Reserva {
+  private total: number = 0;
+
   constructor(
     public readonly usuarioId: number,
     public readonly funcionId: number,
@@ -13,8 +11,18 @@ export class Reserva {
   ) {}
 
   calcularTotal(): number {
-    // TODO: reservar cada asiento (asiento.reservar()) y sumar
-    // asiento.calcularPrecio(this.precioBase) de todos ellos
-    return 0;
+    this.total = this.asientos.reduce((suma, asiento) => {
+      asiento.reservar();
+      return suma + asiento.calcularPrecio(this.precioBase);
+    }, 0);
+    return this.total;
+  }
+
+  getTotal(): number{
+    return this.total;
+  }
+
+  getAsientos(): Asiento[]{
+    return this.asientos;
   }
 }

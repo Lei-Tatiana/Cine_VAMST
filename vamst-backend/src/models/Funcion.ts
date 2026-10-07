@@ -1,5 +1,3 @@
-// MODELO: una función es "esta película, en esta sala, a esta hora".
-
 export class Funcion {
   constructor(
     public readonly id: number,
@@ -10,5 +8,29 @@ export class Funcion {
     private precioBase: number
   ) {}
 
-  // TODO: getPrecioBase(), getFechaHora(), etc.
+  getPeliculaId(): number {
+    return this.peliculaId;
+  }
+  getSalaId(): number {
+    return this.salaId;
+  }
+  getFechaHora(): Date {
+    return this.fechaHora;
+  }
+  getFormato(): string {
+    return this.formato;
+  }
+  getPrecioBase(): number {
+    return this.precioBase;
+  }
+
+  toJSON(){
+    return{
+      peliculaId: this.peliculaId,
+      salaId: this.salaId,
+      fechaHora: this.fechaHora,
+      formato: this.formato,
+      precioBase: this.precioBase
+    }
+  }
 }

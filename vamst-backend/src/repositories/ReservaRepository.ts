@@ -1,19 +1,33 @@
-// REPOSITORIO de reservas. Acá es donde conviene usar una TRANSACCIÓN:
-// si falla la inserción de un asiento, hay que deshacer toda la reserva,
-// no dejarla a medias.
-
+import { PoolConnection } from "mysql2";
 import { pool } from "../config/db";
 import { Reserva } from "../models/Reserva";
 
 export const ReservaRepository = {
   async crear(reserva: Reserva): Promise<number> {
-    // TODO: 1) pool.getConnection() y connection.beginTransaction()
-    //       2) INSERT INTO reservas (...)
-    //       3) por cada asiento, INSERT INTO reserva_asientos (...)
-    //          (acá puede fallar por el UNIQUE si alguien más reservó primero)
-    //       4) connection.commit() si todo salió bien,
-    //          connection.rollback() si algo falló
-    //       5) devolver el id de la reserva creada
-    return 0;
+  const conexion = await pool.getConnection();
+    try{
+      await conexion.beginTransaction();
+
+      const [resultado]: any = await conexion.query(
+        "INSERT INTO reservas (usuario_id, funcion_id, total, estado) VALUES (?, ?, ?, 'confirmada')",
+        [reserva.usuarioId, reserva.funcionId, reserva.getTotal()]
+      );
+      const reservaId = resultado.insertId;
+
+      for (const asiento  of reserva.getAsientos()){
+        await conexion.query(
+          "INSERT INTO reserva_asientos (reserva_id, funcion_id, asiento_id, precio) VALUES (?, ?, ?, ?)",
+          [reservaId, reserva.funcionId, asiento.id, asiento.calcularPrecio(0)]
+        );
+      }
+
+      await conexion.commit();
+      return reservaId;
+    } catch (error){
+      await conexion.rollback();
+      throw error;
+    } finally{
+      conexion.release();
+    }
   },
 };

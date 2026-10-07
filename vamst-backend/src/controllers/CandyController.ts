@@ -3,7 +3,12 @@ import { ProductoCandyRepository } from "../repositories/ProductoCandyRepository
 
 export class CandyController {
   static async listar(req: Request, res: Response) {
-    // TODO: usar el query param "categoria" (req.query.categoria) si viene,
-    // y llamar a ProductoCandyRepository.listarTodos(categoria)
+    try{
+      const categoria = req.query.categoria as string | undefined;
+      const productos = await ProductoCandyRepository.listarTodos(categoria);
+      res.json({ok: true, data: productos});
+    } catch(e:any){
+      res.status(500).json({ok: true, error:{mensaje: e.message}});
+    }
   }
 }

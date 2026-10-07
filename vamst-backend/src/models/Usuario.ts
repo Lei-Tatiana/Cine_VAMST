@@ -1,6 +1,3 @@
-// MODELO BASE de usuario. Cliente y Administrador heredan de acá.
-// La contraseña NUNCA se guarda en texto plano: siempre hasheada (bcrypt).
-
 export class Usuario {
   constructor(
     public readonly id: number,
@@ -9,8 +6,21 @@ export class Usuario {
     private passwordHash: string
   ) {}
 
-  // TODO: getNombre(), getEmail()
+  getNombre(): string{
+    return this.nombre;
+  }
+  getEmail(): string{
+    return this.email;
+  }
+  getPasswordHash(): string{
+    return this.passwordHash;
+  }
 
-  // TODO: verificarPassword(passwordPlano: string): Promise<boolean>
-  // usando bcrypt.compare(passwordPlano, this.passwordHash)
+  toJSON(){
+    return{
+      id: this.id, 
+      nombre: this.nombre,
+      email: this.email
+    };
+  }
 }
