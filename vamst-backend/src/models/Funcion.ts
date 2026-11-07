@@ -26,6 +26,7 @@ export class Funcion {
 
   toJSON(){
     return{
+      id: this.id,  
       peliculaId: this.peliculaId,
       salaId: this.salaId,
       fechaHora: this.fechaHora,

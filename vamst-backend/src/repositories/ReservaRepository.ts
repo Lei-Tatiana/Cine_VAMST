@@ -17,7 +17,7 @@ export const ReservaRepository = {
       for (const asiento  of reserva.getAsientos()){
         await conexion.query(
           "INSERT INTO reserva_asientos (reserva_id, funcion_id, asiento_id, precio) VALUES (?, ?, ?, ?)",
-          [reservaId, reserva.funcionId, asiento.id, asiento.calcularPrecio(0)]
+          [reservaId, reserva.funcionId, asiento.id, asiento.calcularPrecio(reserva.getPrecioBase())]
         );
       }
 

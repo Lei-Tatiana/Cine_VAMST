@@ -11,12 +11,16 @@ export class Reserva {
   ) {}
 
   calcularTotal(): number {
-    this.total = this.asientos.reduce((suma, asiento) => {
-      asiento.reservar();
-      return suma + asiento.calcularPrecio(this.precioBase);
-    }, 0);
+    this.total = this.asientos.reduce(
+      (suma, a) => suma + a.calcularPrecio(this.precioBase), 0
+    );
     return this.total;
   }
+
+  confirmar(): void {
+    this.asientos.forEach((a) => a.reservar()); 
+    this.calcularTotal();
+}
 
   getTotal(): number{
     return this.total;
@@ -25,4 +29,10 @@ export class Reserva {
   getAsientos(): Asiento[]{
     return this.asientos;
   }
+
+  getPrecioBase(): number {
+    return this.precioBase;
+  }
 }
+
+

@@ -36,8 +36,6 @@ vamst-backend/
     │   ├── AsientoComun.ts
     │   ├── AsientoAccesible.ts
     │   ├── Usuario.ts
-    │   ├── Cliente.ts
-    │   ├── Administrador.ts
     │   ├── Funcion.ts
     │   └── Reserva.ts
     ├── repositories/

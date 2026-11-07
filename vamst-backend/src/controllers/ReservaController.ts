@@ -21,7 +21,7 @@ export class ReservaController {
       const seleccionados = todosLosAsientos.filter((a) => asientosIds.includes(a.id));
 
       const reserva = new Reserva(usuarioId, funcionId, seleccionados, funcion.getPrecioBase());
-      reserva.calcularTotal();
+      reserva.confirmar();
 
       const reservaId = await ReservaRepository.crear(reserva);
       res.status(201).json({ok: true, data:{id: reservaId, total: reserva.getTotal()}});

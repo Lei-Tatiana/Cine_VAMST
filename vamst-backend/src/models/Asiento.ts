@@ -35,7 +35,7 @@ export abstract class Asiento {
       id: this.id,
       fila: this.fila,
       numero: this.numero, 
-      tipo: this.getTipo,
+      tipo: this.getTipo(),
       estado: this.estado,
       precio: this.calcularPrecio(precioBase),
     };

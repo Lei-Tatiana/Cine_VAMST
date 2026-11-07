@@ -1,8 +1,8 @@
 export class Usuario {
   constructor(
     public readonly id: number,
-    protected nombre: string,
-    protected email: string,
+    private nombre: string,
+    private email: string,
     private passwordHash: string
   ) {}
 
