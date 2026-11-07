@@ -26,7 +26,9 @@
         {
           "root": "./src/app"
         }
-      ]
+      ],
+      "expo-image",
+      "expo-status-bar"
     ]
   }
 }
