@@ -194,7 +194,7 @@ INSERT INTO funciones (pelicula_id, sala_id, fecha_hora, formato, precio_base) V
 (6, 2, '2027-11-08 20:00:00', '2D Subtitulada', 6000.00),
 (6, 2, '2027-11-09 14:30:00', '2D Doblada', 6000.00),
 (6, 2, '2027-11-09 17:15:00', '2D Subtitulada', 6000.00),
-(6, 2, '2027-11-09 20:00:00', '2D Doblada', 6000.00);
+(6, 2, '2027-11-11 20:00:00', '2D Doblada', 6000.00);
 
 INSERT INTO productos_candy (nombre, categoria, precio, stock) VALUES
 ('Combo Pareja', 'combos', 12500.00, 60),
