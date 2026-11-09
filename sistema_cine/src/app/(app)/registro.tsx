@@ -72,6 +72,10 @@ export default function Registro() {
       setError("Completá todos los campos.");
       return;
     }
+    if (modo === "registro" && password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
     setEnviando(true);
     setError("");
     try {
@@ -435,7 +439,7 @@ export default function Registro() {
                     />
                     <TextInput
                       style={estilos.input}
-                      placeholder="Contraseña"
+                      placeholder={modo === "registro" ? "Contraseña (mínimo 6 caracteres)" : "Contraseña"}
                       placeholderTextColor={colores.gris}
                       secureTextEntry
                       value={password}

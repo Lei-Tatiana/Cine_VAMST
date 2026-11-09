@@ -10,6 +10,9 @@ export class AuthController {
       if(!nombre || !email || !password){
         return res.status(400).json({ok: false, error: {mensaje: "Faltan datos"}});
       }
+      if(String(password).length < 6){
+        return res.status(400).json({ok: false, error: {mensaje: "La contraseña debe tener al menos 6 caracteres"}});
+      }
 
       const existente = await UsuarioRepository.buscarPorEmail(email);
       if (existente){
