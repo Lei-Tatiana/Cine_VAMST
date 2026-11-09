@@ -5,7 +5,7 @@ USE vamst;
 INSERT INTO peliculas (titulo, sinopsis, duracion_min, clasificacion, genero, poster_url) VALUES
 ('Batman', 'El caballero oscuro vuelve a Gotham para enfrentar una nueva amenaza que pone en jaque a la ciudad.', 176, '+13', 'Acción', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4IDc3tfaabaI9F5JYaz0Vp0Dyuis24mVrRxhPHdSBYH9rfXVSwoHa6WI&s=10'),
 ('Intensamente 2', 'Riley crece y nuevas emociones llegan a su cabeza, revolucionando todo lo que conocía.', 96, 'ATP', 'Animación', 'https://micartelera.com.ar/images/peliculas/poster/Intensamente-2-01.jpg'),
-('Duna', 'Paul Atreides se une a los Fremen para vengar a su familia y evitar un futuro terrible que solo él puede prever.', 166, '+13', 'Ciencia ficción', 'https://placehold.co/300x450/1e1e1e/ffffff?text=Duna'),
+('Duna', 'Paul Atreides se une a los Fremen para vengar a su familia y evitar un futuro terrible que solo él puede prever.', 166, '+13', 'Ciencia ficción', 'https://m.media-amazon.com/images/S/pv-target-images/d8f1c0d01186c043048b690ec2ac54d15bcbbe09b0c927f0947aa28f54d3d980.jpg'),
 ('Wicked', 'La historia no contada de las brujas de Oz: una amistad improbable entre Elphaba y Glinda.', 160, 'ATP', 'Musical', 'https://www.carteleraargentina.com.ar/wp-content/uploads/2025/11/Wicked-2.webp'),
 ('Moana 2', 'Moana vuelve a zarpar junto a Maui y una nueva tripulación para conectar islas perdidas.', 100, 'ATP', 'Animación', 'https://i.ibb.co/VttSJ3B/Dise-o-sin-t-tulo-25.png'),
 ('Gladiador II', 'Lucio debe entrar al Coliseo para devolver la gloria de Roma a su pueblo y enfrentar a un tirano.', 148, '+16', 'Acción', 'https://es.web.img3.acsta.net/img/93/23/9323a23d3967be8808ac146b4c138de3.jpg'),
