@@ -8,7 +8,7 @@ export default function BotonRojo({ texto, onPress, desactivado = false }: Props
     <Pressable
       onPress={onPress}
       disabled={desactivado}
-      style={[estilos.boton, desactivado && estilos.desactivado]}
+      style={({ pressed }) => [estilos.boton, pressed && estilos.presionado, desactivado && estilos.desactivado]}
     >
       <Text style={estilos.texto}>{texto}</Text>
     </Pressable>
@@ -24,5 +24,6 @@ const estilos = StyleSheet.create({
     alignItems: "center",
   },
   desactivado: { opacity: 0.4 },
+  presionado: { opacity: 0.88, transform: [{ scale: 0.98 }] },
   texto: { color: colores.texto, fontSize: 16, fontWeight: "bold" },
 });

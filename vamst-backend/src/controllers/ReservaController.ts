@@ -6,13 +6,16 @@ import { ReservaRepository } from "../repositories/ReservaRepository";
 import { Reserva } from "../models/Reserva";
 import { codigoReserva } from "../utils/codigoReserva";
 
+const metodosPago = ["tarjeta", "mercadopago", "efectivo"];
+
 export class ReservaController {
   static async crear(req: Request, res: Response) {
     try{
-      const {usuarioId, funcionId, asientosIds} = req.body;
+      const {usuarioId, funcionId, asientosIds, metodoPago} = req.body;
       if(!usuarioId || !funcionId || !Array.isArray(asientosIds) || asientosIds.length === 0){
         return res.status(400).json({ok: false, error:{mensaje: "Faltan datos"}});
       }
+      const metodo = metodosPago.includes(metodoPago) ? metodoPago : "tarjeta";
 
       // Los ids tienen que ser enteros positivos y sin repetir
       const ids = asientosIds.map(Number);
@@ -48,7 +51,7 @@ export class ReservaController {
       const reserva = new Reserva(Number(usuarioId), Number(funcionId), seleccionados, funcion.getPrecioBase());
       reserva.confirmar();
 
-      const reservaId = await ReservaRepository.crear(reserva);
+      const reservaId = await ReservaRepository.crear(reserva, metodo);
       res.status(201).json({ok: true, data:{id: reservaId, codigo: codigoReserva(reservaId), total: reserva.getTotal()}});
     } catch (e:any){
       // Dos personas eligieron el mismo asiento a la vez: lo frena el UNIQUE de reserva_asientos

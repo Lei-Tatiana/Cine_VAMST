@@ -5,8 +5,11 @@ type Props = { texto: string; activo?: boolean; onPress: () => void };
 
 export default function Chip({ texto, activo = false, onPress }: Props) {
   return (
-    <Pressable onPress={onPress} style={[estilos.chip, activo && estilos.activo]}>
-      <Text style={estilos.texto}>{texto}</Text>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [estilos.chip, activo && estilos.activo, pressed && estilos.presionado]}
+    >
+      <Text style={[estilos.texto, activo && estilos.textoActivo]}>{texto}</Text>
     </Pressable>
   );
 }
@@ -21,5 +24,7 @@ const estilos = StyleSheet.create({
     backgroundColor: colores.tarjeta,
   },
   activo: { backgroundColor: colores.rojo, borderColor: colores.rojo },
+  presionado: { opacity: 0.8 },
   texto: { color: colores.texto, fontSize: 14 },
+  textoActivo: { fontWeight: "700" },
 });

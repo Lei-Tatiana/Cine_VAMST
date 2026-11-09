@@ -9,6 +9,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
 import { Promo } from "../data/promos";
 import { Image } from "expo-image";
@@ -69,10 +70,13 @@ export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHo
         onMomentumScrollEnd={alTerminarDeDeslizar}
         renderItem={({ item }) => (
           <Pressable style={[estilos.slide, { width: ancho }]} onPress={() => onPress(item)}>
-            {/* SOLUCIÓN: Usamos absoluteFill con los tres puntos para expandir el objeto */}
-            <Image source={item.imagen} style={{ ...StyleSheet.absoluteFill }} contentFit="cover" />
+            <Image source={item.imagen} style={{ ...StyleSheet.absoluteFill }} contentFit="cover" transition={220} />
             
             <View style={estilos.capa} />
+
+            <View style={estilos.iconoBadge}>
+              <Ionicons name={item.icono} size={18} color={colores.rojo} />
+            </View>
             
             <View style={estilos.texto}>
               <Text style={estilos.titulo} numberOfLines={1}>{item.titulo}</Text>
@@ -111,7 +115,19 @@ const estilos = StyleSheet.create({
   ...StyleSheet.absoluteFill, // Cambiado aquí también
   backgroundColor: "rgba(0, 0, 0, 0.45)",
 },
-
+  iconoBadge: {
+    position: "absolute",
+    top: 12,
+    left: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "rgba(10,10,10,0.72)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.15)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   texto: { 
     padding: 16, 
     gap: 4,

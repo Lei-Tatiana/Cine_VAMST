@@ -1,5 +1,17 @@
+import type { MetodoPago } from "../models/tipos";
+
 const DIAS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const MESES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+export const etiquetasMetodoPago: Record<MetodoPago, string> = {
+  tarjeta: "Tarjeta",
+  mercadopago: "Mercado Pago",
+  efectivo: "Efectivo al retirar",
+};
+
+export function etiquetaMetodoPago(metodo: MetodoPago | null): string {
+  return metodo ? etiquetasMetodoPago[metodo] : "No registrado";
+}
 
 export function formatearPrecio(valor: number): string {
   return `$${Number(valor).toLocaleString("es-AR")}`;

@@ -68,9 +68,9 @@ vamst-backend/
 1. Correr `database/schema.sql` y después `database/seed.sql` en MySQL.
 2. Copiar `.env.example` como `.env` y completar `DB_PASSWORD`.
 3. `npm run dev`. En la consola tienen que aparecer **dos** líneas:
-   - `VAMST backend escuchando en http://localhost:3000`
+   - `VAMST backend escuchando en http://localhost:3001`
    - `Base de datos conectada (...)` (si falla, muestra el motivo y qué revisar)
-4. Abrir en el navegador `http://TU_IP:3000/api/salud` (desde la compu y desde el celular).
+4. Abrir en el navegador `http://TU_IP:3001/api/salud` (desde la compu y desde el celular).
    Debe responder `{"ok":true,"data":{"api":"ok","baseDeDatos":"ok"}}`.
 
 ## Endpoints

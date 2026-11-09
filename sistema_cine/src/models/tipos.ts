@@ -1,5 +1,7 @@
 export type EstadoPelicula = "estreno" | "preventa" | "proximo";
 
+export type MetodoPago = "tarjeta" | "mercadopago" | "efectivo";
+
 export interface Pelicula {
   id: number;
   titulo: string;
@@ -60,6 +62,7 @@ export interface ReservaDetalle {
   codigo: string;
   estado: string;
   total: number;
+  metodoPago: MetodoPago | null;
   creadaEn: string;
   pelicula: string;
   formato: string;
@@ -83,6 +86,7 @@ export interface PedidoCandy {
   id: number;
   codigo: string; // "CANDY-00007"
   total: number;
+  metodoPago: MetodoPago | null;
   creadaEn: string;
   items: { nombre: string; precio: number; cantidad: number }[];
 }

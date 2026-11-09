@@ -8,6 +8,8 @@ import Encabezado from "../../components/Encabezado";
 import Chip from "../../components/Chip";
 import BotonRojo from "../../components/BotonRojo";
 import TarjetaPelicula from "../../components/TarjetaPelicula";
+import TituloSeccion from "../../components/TituloSeccion";
+import Aparicion from "../../components/Aparicion";
 import { colores } from "../../constants/colores";
 import { getFunciones, getPeliculaPorId, getPeliculas } from "../../services/api";
 import { formatearDuracion, formatearFecha, formatearHora, formatearPrecio } from "../../utils/formato";
@@ -90,8 +92,17 @@ export default function DetallePelicula() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={estilos.contenido}>
-          <View style={estilos.ficha}>
-            <Image source={{ uri: pelicula.posterUrl }} style={estilos.poster} contentFit="cover" />
+          <Aparicion style={estilos.ficha}>
+            <View style={estilos.posterContenedor}>
+              <Image source={{ uri: pelicula.posterUrl }} style={estilos.poster} contentFit="cover" transition={200} />
+              {pelicula.estado !== "estreno" ? (
+                <View style={estilos.estadoBadge}>
+                  <Text style={estilos.estadoTexto}>
+                    {pelicula.estado === "preventa" ? "PREVENTA" : "PRÓXIMAMENTE"}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
             <View style={estilos.fichaInfo}>
               <Text style={estilos.titulo}>{pelicula.titulo}</Text>
               <View style={estilos.info}>
@@ -104,18 +115,22 @@ export default function DetallePelicula() {
               </View>
               <Text style={estilos.edad}>{pelicula.clasificacion}</Text>
             </View>
-          </View>
+          </Aparicion>
 
-          <Text style={estilos.sinopsis}>{pelicula.sinopsis}</Text>
+          <Aparicion delay={70}>
+            <Text style={estilos.sinopsis}>{pelicula.sinopsis}</Text>
+          </Aparicion>
 
           {pelicula.estado === "proximo" ? (
-            <View style={estilos.proximamente}>
+            <Aparicion delay={120} style={estilos.proximamente}>
               <Ionicons name="calendar-outline" size={18} color={colores.gris} />
               <Text style={estilos.proximamenteTexto}>Disponible próximamente</Text>
-            </View>
+            </Aparicion>
           ) : (
-            <>
-              <Text style={estilos.seccion}>Horarios y salas</Text>
+            <Aparicion delay={120}>
+              <View style={estilos.tituloSeccion}>
+                <TituloSeccion texto="Horarios y salas" subtitulo="Elegí día y función" />
+              </View>
               {dias.length === 0 ? (
                 <Text style={estilos.sinFunciones}>No hay funciones programadas para esta película.</Text>
               ) : (
@@ -142,30 +157,33 @@ export default function DetallePelicula() {
                   ) : null}
                   <View style={estilos.boton}>
                     <BotonRojo
-                      texto="Seleccionar asientos / continuar"
+                      texto="Seleccionar asientos"
                       desactivado={!funcion}
                       onPress={irAAsientos}
                     />
                   </View>
                 </>
               )}
-            </>
+            </Aparicion>
           )}
 
           {sugeridas.length > 0 ? (
-            <>
-              <Text style={estilos.seccion}>También te podría gustar</Text>
+            <Aparicion delay={180}>
+              <View style={estilos.tituloSeccion}>
+                <TituloSeccion texto="También te podría gustar" subtitulo="Otras películas en cartelera" />
+              </View>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={estilos.carrusel}>
-                {sugeridas.map((p) => (
+                {sugeridas.slice(0, 8).map((p) => (
                   <TarjetaPelicula
                     key={p.id}
                     titulo={p.titulo}
                     posterUrl={p.posterUrl}
+                    compacta
                     onPress={() => router.replace({ pathname: "/detalle_pelicula", params: { id: String(p.id) } })}
                   />
                 ))}
               </ScrollView>
-            </>
+            </Aparicion>
           ) : null}
         </ScrollView>
       )}
@@ -181,7 +199,18 @@ const estilos = StyleSheet.create({
   errorDetalle: { color: colores.gris, textAlign: "center" },
   reintentar: { marginTop: 12, width: "60%" },
   ficha: { flexDirection: "row", gap: 16 },
-  poster: { width: 120, height: 175, borderRadius: 10, backgroundColor: colores.tarjeta },
+  posterContenedor: { width: 120, height: 175 },
+  poster: { width: "100%", height: "100%", borderRadius: 10, backgroundColor: colores.tarjeta },
+  estadoBadge: {
+    position: "absolute",
+    top: 8,
+    left: 8,
+    backgroundColor: colores.rojo,
+    borderRadius: 6,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+  },
+  estadoTexto: { color: colores.texto, fontSize: 9, fontWeight: "900", letterSpacing: 0.6 },
   fichaInfo: { flex: 1, justifyContent: "center", gap: 8 },
   titulo: { color: colores.texto, fontSize: 24, fontWeight: "bold" },
   info: { flexDirection: "row", alignItems: "center", gap: 6 },
@@ -210,7 +239,7 @@ const estilos = StyleSheet.create({
     backgroundColor: colores.tarjeta,
   },
   proximamenteTexto: { color: colores.gris, fontWeight: "600" },
-  seccion: { color: colores.texto, fontSize: 18, fontWeight: "bold", marginTop: 28, marginBottom: 12 },
+  tituloSeccion: { marginTop: 28, marginBottom: 12 },
   sinFunciones: { color: colores.gris },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 10 },
   funcionDetalle: { color: colores.gris, marginTop: 4 },

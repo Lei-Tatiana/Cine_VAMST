@@ -1,10 +1,10 @@
-// ÚNICO archivo que le habla al backend (vamst-backend). Ninguna pantalla
-// debería hacer fetch() directo: todas llaman a funciones de acá.
+
 
 import Constants from "expo-constants";
 import {
   Asiento,
   Funcion,
+  MetodoPago,
   Pelicula,
   ProductoCandy,
   PedidoCandy,
@@ -15,14 +15,9 @@ import {
   Usuario,
 } from "../models/tipos";
 
-// Dirección del backend. Orden de prioridad:
-//  1) EXPO_PUBLIC_API_URL (archivo .env del frontend), ej: http://192.168.0.15:3000/api
-//  2) La IP de la compu que Expo Go nos da en hostUri (celular físico en la misma Wi-Fi)
-//  3) localhost (navegador web)
-// OJO: si abrís Expo con --tunnel, hostUri es una dirección de ngrok y el backend
-// (puerto 3000) NO es accesible por ahí: en ese caso hay que definir EXPO_PUBLIC_API_URL.
+
 const host = Constants.expoConfig?.hostUri?.split(":")[0] ?? "localhost";
-export const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? `http://${host}:3000/api`;
+export const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? `http://${host}:3001/api`;
 
 if (__DEV__) console.log(`[API] El frontend le habla al backend en ${BASE_URL}`);
 
@@ -40,7 +35,7 @@ async function pedir<T>(ruta: string, opciones?: RequestInit): Promise<T> {
       signal: controlador.signal,
     });
   } catch {
-    // Sin esto, con una IP equivocada la pantalla se quedaba cargando para siempre
+
     throw new Error(
       `No se pudo conectar con el servidor (${BASE_URL}). Revisá que el backend esté encendido y que el celular esté en la misma red Wi-Fi que la compu.`
     );
@@ -58,7 +53,7 @@ async function pedir<T>(ruta: string, opciones?: RequestInit): Promise<T> {
   return cuerpo.data;
 }
 
-// Para saber si la API y la base de datos están vivas.
+
 export const getSalud = () => pedir<Salud>("/salud");
 
 export const getPeliculas = () => pedir<Pelicula[]>("/peliculas");
@@ -71,10 +66,15 @@ export const getFunciones = (peliculaId: number) =>
 export const getAsientos = (funcionId: number) =>
   pedir<Asiento[]>(`/funciones/${funcionId}/asientos`);
 
-export const crearReserva = (usuarioId: number, funcionId: number, asientosIds: number[]) =>
+export const crearReserva = (
+  usuarioId: number,
+  funcionId: number,
+  asientosIds: number[],
+  metodoPago: MetodoPago
+) =>
   pedir<ReservaCreada>("/reservas", {
     method: "POST",
-    body: JSON.stringify({ usuarioId, funcionId, asientosIds }),
+    body: JSON.stringify({ usuarioId, funcionId, asientosIds, metodoPago }),
   });
 
 export const registrarUsuario = (nombre: string, email: string, password: string) =>
@@ -89,16 +89,29 @@ export const loginUsuario = (email: string, password: string) =>
     body: JSON.stringify({ email, password }),
   });
 
+export const solicitarCodigoRecuperacion = (email: string) =>
+  pedir<{ enviado: boolean; codigo?: string; destino?: string }>("/auth/recuperar", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+
+export const restablecerPassword = (email: string, codigo: string, password: string) =>
+  pedir<{ actualizado: boolean }>("/auth/restablecer", {
+    method: "POST",
+    body: JSON.stringify({ email, codigo, password }),
+  });
+
 export const getProductosCandy = (categoria?: string) =>
   pedir<ProductoCandy[]>(`/candy${categoria ? `?categoria=${categoria}` : ""}`);
 
 export const crearPedidoCandy = (
-  usuarioId: number | null,
-  items: { productoId: number; cantidad: number }[]
+  usuarioId: number,
+  items: { productoId: number; cantidad: number }[],
+  metodoPago: MetodoPago
 ) =>
   pedir<ReservaCreada>("/candy/pedidos", {
     method: "POST",
-    body: JSON.stringify({ usuarioId, items }),
+    body: JSON.stringify({ usuarioId, items, metodoPago }),
   });
 
 export const getMisReservas = (usuarioId: number) =>

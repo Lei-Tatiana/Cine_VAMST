@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Encabezado from "../../components/Encabezado";
 import BotonRojo from "../../components/BotonRojo";
+import FormularioPago from "../../components/FormularioPago";
 import { colores } from "../../constants/colores";
 import { formatearPrecio } from "../../utils/formato";
 import { crearReserva } from "../../services/api";
 import { useSesion } from "../../services/sesion";
 import { useMenuLateral } from "../../hooks/useMenuLateral";
+import { MetodoPago } from "../../models/tipos";
 
 type Params = {
   funcionId?: string;
@@ -37,38 +39,38 @@ export default function ConfirmarCompra() {
   const router = useRouter();
   const p = useLocalSearchParams<Params>();
   const { usuario } = useSesion();
-  const [confirmando, setConfirmando] = useState(false);
+  const [pagoVisible, setPagoVisible] = useState(false);
 
   const asientos = p.asientos ? p.asientos.split(",").filter(Boolean) : [];
   const ids = p.asientosIds ? p.asientosIds.split(",").map(Number) : [];
   const cantidad = asientos.length;
   const total = Number(p.total ?? 0);
 
-  const confirmar = async () => {
+  const pagarYConfirmar = async (metodoPago: MetodoPago) => {
+    if (!usuario) throw new Error("Iniciá sesión para comprar tus entradas.");
+    const reserva = await crearReserva(usuario.id, Number(p.funcionId), ids, metodoPago);
+    setPagoVisible(false);
+    router.replace({
+      pathname: "/reserva_confirmada",
+      params: {
+        reservaId: reserva.codigo,
+        total: String(reserva.total),
+        pelicula: p.pelicula ?? "",
+        funcion: p.funcion ?? "",
+        formato: p.formato ?? "",
+        sala: p.sala ?? "",
+        asientos: asientos.join(","),
+      },
+    });
+  };
+
+  const continuar = () => {
     if (!usuario) {
       router.push("/registro");
       return;
     }
-    if (confirmando || ids.length === 0) return;
-    setConfirmando(true);
-    try {
-      const reserva = await crearReserva(usuario.id, Number(p.funcionId), ids);
-      router.replace({
-        pathname: "/reserva_confirmada",
-        params: {
-          reservaId: reserva.codigo,
-          total: String(reserva.total),
-          pelicula: p.pelicula ?? "",
-          funcion: p.funcion ?? "",
-          formato: p.formato ?? "",
-          sala: p.sala ?? "",
-          asientos: asientos.join(","),
-        },
-      });
-    } catch (e: any) {
-      Alert.alert("No se pudo confirmar", e.message);
-      setConfirmando(false);
-    }
+    if (ids.length === 0) return;
+    setPagoVisible(true);
   };
 
   return (
@@ -142,20 +144,39 @@ export default function ConfirmarCompra() {
           <Text style={estilos.pieMonto}>{formatearPrecio(total)}</Text>
         </View>
         <View style={estilos.pieBoton}>
-          {confirmando ? (
-            <View style={estilos.botonCargando}>
-              <ActivityIndicator color={colores.texto} />
-              <Text style={estilos.botonCargandoTexto}>Confirmando…</Text>
-            </View>
-          ) : (
-            <BotonRojo
-              texto={usuario ? "Confirmar compra" : "Iniciar sesión para comprar"}
-              desactivado={cantidad === 0}
-              onPress={confirmar}
-            />
-          )}
+          <BotonRojo
+            texto={usuario ? "Ir a pagar" : "Iniciar sesión para comprar"}
+            desactivado={cantidad === 0}
+            onPress={continuar}
+          />
         </View>
       </View>
+
+      <Modal
+        visible={pagoVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setPagoVisible(false)}
+      >
+        <View style={estilos.modalFondo}>
+          <View style={estilos.modalPanel}>
+            <View style={estilos.modalEncabezado}>
+              <View style={estilos.modalTituloInfo}>
+                <Text style={estilos.modalTitulo}>Pago de entradas</Text>
+                <Text style={estilos.modalSubtitulo}>
+                  {cantidad} {cantidad === 1 ? "entrada" : "entradas"} · {p.pelicula || "Película"}
+                </Text>
+              </View>
+              <Pressable onPress={() => setPagoVisible(false)} hitSlop={8}>
+                <Ionicons name="close" size={26} color={colores.texto} />
+              </Pressable>
+            </View>
+            <ScrollView style={estilos.modalScroll}>
+              <FormularioPago monto={total} onPagar={pagarYConfirmar} />
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -238,15 +259,17 @@ const estilos = StyleSheet.create({
   pieEtiqueta: { color: colores.gris, fontSize: 12 },
   pieMonto: { color: colores.texto, fontSize: 22, fontWeight: "bold", marginTop: 2 },
   pieBoton: { flex: 1.4 },
-  botonCargando: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    backgroundColor: colores.rojo,
-    opacity: 0.7,
-    paddingVertical: 14,
-    borderRadius: 10,
+  modalFondo: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", justifyContent: "flex-end" },
+  modalPanel: {
+    backgroundColor: colores.fondo,
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    padding: 20,
+    maxHeight: "88%",
   },
-  botonCargandoTexto: { color: colores.texto, fontSize: 16, fontWeight: "bold" },
+  modalEncabezado: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 14 },
+  modalTituloInfo: { flex: 1 },
+  modalTitulo: { color: colores.texto, fontSize: 20, fontWeight: "bold" },
+  modalSubtitulo: { color: colores.gris, fontSize: 12, marginTop: 2 },
+  modalScroll: { maxHeight: 520 },
 });

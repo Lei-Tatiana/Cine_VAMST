@@ -47,6 +47,6 @@ export const asientosMock: Asiento[] = ["A", "B", "C", "D", "E"].flatMap((fila, 
 
 export const productosCandyMock: ProductoCandy[] = [
   { id: 1, nombre: "Combo Pochoclo + Gaseosa", categoria: "combos", precio: 7500, stock: 50 },
-  { id: 2, nombre: "Gaseosa grande", categoria: "bebidas", precio: 3000, stock: 80 },
+  { id: 2, nombre: "Gaseosa grande", categoria: "bebidas", precio: 3001, stock: 80 },
   { id: 3, nombre: "Chocolate", categoria: "golosinas", precio: 2000, stock: 40 },
 ];

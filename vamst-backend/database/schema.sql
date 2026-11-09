@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS vamst DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE vamst;
 
--- Usuarios: clientes y administradores del sistema (registro.tsx / login)
+
 CREATE TABLE usuarios (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
@@ -11,7 +11,6 @@ CREATE TABLE usuarios (
   creado_en DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Películas: lo que se muestra en la cartelera (elegir_pelicula.tsx)
 CREATE TABLE peliculas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   titulo VARCHAR(150) NOT NULL,
@@ -23,7 +22,7 @@ CREATE TABLE peliculas (
   estado ENUM('estreno', 'preventa', 'proximo') NOT NULL DEFAULT 'estreno'
 );
 
--- Salas físicas del cine, cada una con su grilla de asientos
+
 CREATE TABLE salas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
@@ -32,8 +31,7 @@ CREATE TABLE salas (
   columnas INT NOT NULL
 );
 
--- Asientos físicos de cada sala. El campo "tipo" es clave para
--- las clases AsientoComun / AsientoAccesible del backend.
+
 CREATE TABLE asientos (
   id INT AUTO_INCREMENT PRIMARY KEY,
   sala_id INT NOT NULL,
@@ -43,7 +41,7 @@ CREATE TABLE asientos (
   FOREIGN KEY (sala_id) REFERENCES salas(id)
 );
 
--- Funciones: una película, en una sala, a una fecha/hora (detalle_pelicula.tsx)
+
 CREATE TABLE funciones (
   id INT AUTO_INCREMENT PRIMARY KEY,
   pelicula_id INT NOT NULL,
@@ -55,7 +53,7 @@ CREATE TABLE funciones (
   FOREIGN KEY (sala_id) REFERENCES salas(id)
 );
 
--- Reservas hechas por un usuario para una función (seleccionar_asientos.tsx)
+
 CREATE TABLE reservas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT NOT NULL,
@@ -67,9 +65,8 @@ CREATE TABLE reservas (
   FOREIGN KEY (funcion_id) REFERENCES funciones(id)
 );
 
--- Asientos concretos que forman parte de una reserva.
--- El UNIQUE es lo que impide que dos personas reserven el mismo asiento
--- en la misma función, aunque lo intenten al mismo tiempo.
+ asiento
+
 CREATE TABLE reserva_asientos (
   reserva_id INT NOT NULL,
   funcion_id INT NOT NULL,
@@ -80,7 +77,7 @@ CREATE TABLE reserva_asientos (
   FOREIGN KEY (asiento_id) REFERENCES asientos(id)
 );
 
--- Candy bar (tienda.tsx)
+
 CREATE TABLE productos_candy (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
@@ -89,8 +86,7 @@ CREATE TABLE productos_candy (
   stock INT DEFAULT 0
 );
 
--- Pedidos del candy bar. "items" guarda el detalle como JSON
--- (nombre, precio y cantidad de cada producto al momento de la compra).
+
 CREATE TABLE pedidos_candy (
   id INT AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT NULL,

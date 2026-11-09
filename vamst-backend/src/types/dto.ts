@@ -2,6 +2,7 @@ export interface CrearReservaDTO {
   usuarioId: number;
   funcionId: number;
   asientosIds: number[];
+  metodoPago?: "tarjeta" | "mercadopago" | "efectivo";
 }
 
 export interface RegistroUsuarioDTO {
@@ -25,6 +26,7 @@ export interface ReservaDetalleDTO {
   codigo: string;
   estado: string;
   total: number;
+  metodoPago: string | null;
   creadaEn: string;
   pelicula: string;
   formato: string;
@@ -36,4 +38,5 @@ export interface ReservaDetalleDTO {
 export interface CrearPedidoCandyDTO {
   usuarioId?: number;
   items: { productoId: number; cantidad: number }[];
+  metodoPago?: "tarjeta" | "mercadopago" | "efectivo";
 }

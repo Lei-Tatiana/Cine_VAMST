@@ -22,26 +22,28 @@ export const ProductoCandyRepository = {
   },
 
   async crearPedido(
-    usuarioId: number | null,
+    usuarioId: number,
     items: { nombre: string; precio: number; cantidad: number }[],
-    total: number
+    total: number,
+    metodoPago: string
   ): Promise<number> {
     const [resultado]: any = await pool.query(
-      "INSERT INTO pedidos_candy (usuario_id, items, total) VALUES (?, ?, ?)",
-      [usuarioId, JSON.stringify(items), total]
+      "INSERT INTO pedidos_candy (usuario_id, items, total, metodo_pago) VALUES (?, ?, ?, ?)",
+      [usuarioId, JSON.stringify(items), total, metodoPago]
     );
     return resultado.insertId;
   },
 
     async listarPedidosPorUsuario(usuarioId: number) {
     const [filas] = await pool.query<RowDataPacket[]>(
-      "SELECT id, items, total, creada_en FROM pedidos_candy WHERE usuario_id = ? ORDER BY creada_en DESC, id DESC",
+      "SELECT id, items, total, metodo_pago, creada_en FROM pedidos_candy WHERE usuario_id = ? ORDER BY creada_en DESC, id DESC",
       [usuarioId]
     );
     return filas.map((f) => ({
       id: f.id,
       codigo: `CANDY-${String(f.id).padStart(5, "0")}`,
       total: f.total,
+      metodoPago: f.metodo_pago,
       creadaEn: f.creada_en,
       items: typeof f.items === "string" ? JSON.parse(f.items) : f.items,
     }));

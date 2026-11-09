@@ -1,8 +1,6 @@
 SET NAMES utf8mb4;
 USE vamst;
 
--- Estado: 'estreno' (en cartelera), 'preventa' (funciones futuras ya a la venta)
--- o 'proximo' (todavía sin funciones). La migración 002 asigna los otros estados.
 INSERT INTO peliculas (titulo, sinopsis, duracion_min, clasificacion, genero, poster_url, estado) VALUES
 ('Batman', 'El caballero oscuro vuelve a Gotham para enfrentar una nueva amenaza que pone en jaque a la ciudad.', 176, '+13', 'Acción', 'https://placehold.co/300x450/1e1e1e/ffffff?text=Batman', 'estreno'),
 ('Intensamente 2', 'Riley crece y nuevas emociones llegan a su cabeza, revolucionando todo lo que conocía.', 96, 'ATP', 'Animación', 'https://placehold.co/300x450/1e1e1e/ffffff?text=Intensamente%202', 'estreno'),
@@ -152,6 +150,29 @@ INSERT INTO funciones (pelicula_id, sala_id, fecha_hora, formato, precio_base) V
 (6, 2, '2026-11-09 14:30:00', '2D Doblada', 6000.00),
 (6, 2, '2026-11-09 17:15:00', '2D Subtitulada', 6000.00),
 (6, 2, '2026-11-09 20:00:00', '2D Doblada', 6000.00);
+
+-- Horarios adicionales por día para que cada película tenga más opciones.
+INSERT INTO funciones (pelicula_id, sala_id, fecha_hora, formato, precio_base)
+SELECT f.pelicula_id, f.sala_id,
+       TIMESTAMP(f.fecha, h.hora),
+       CASE WHEN h.hora < '16:00:00' THEN '2D Doblada' ELSE '2D Subtitulada' END,
+       f.precio_base
+FROM (
+  SELECT DISTINCT pelicula_id, sala_id, DATE(fecha_hora) AS fecha, precio_base
+  FROM funciones
+) f
+CROSS JOIN (
+  SELECT '11:00:00' AS hora
+  UNION ALL SELECT '12:45:00'
+  UNION ALL SELECT '18:30:00'
+  UNION ALL SELECT '22:30:00'
+) h
+WHERE NOT EXISTS (
+  SELECT 1 FROM funciones x
+  WHERE x.pelicula_id = f.pelicula_id
+    AND x.sala_id = f.sala_id
+    AND x.fecha_hora = TIMESTAMP(f.fecha, h.hora)
+);
 
 INSERT INTO productos_candy (nombre, categoria, precio, stock) VALUES
 ('Combo Pareja', 'combos', 12500.00, 60),

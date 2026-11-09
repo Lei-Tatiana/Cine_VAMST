@@ -5,14 +5,14 @@ import { ReservaDetalleDTO } from "../types/dto";
 import { codigoReserva } from "../utils/codigoReserva";
 
 export const ReservaRepository = {
-  async crear(reserva: Reserva): Promise<number> {
+  async crear(reserva: Reserva, metodoPago: string): Promise<number> {
   const conexion = await pool.getConnection();
     try{
       await conexion.beginTransaction();
 
       const [resultado]: any = await conexion.query(
-        "INSERT INTO reservas (usuario_id, funcion_id, total, estado) VALUES (?, ?, ?, 'confirmada')",
-        [reserva.usuarioId, reserva.funcionId, reserva.getTotal()]
+        "INSERT INTO reservas (usuario_id, funcion_id, total, metodo_pago, estado) VALUES (?, ?, ?, ?, 'confirmada')",
+        [reserva.usuarioId, reserva.funcionId, reserva.getTotal(), metodoPago]
       );
       const reservaId = resultado.insertId;
 
@@ -35,7 +35,7 @@ export const ReservaRepository = {
   // Reservas de un usuario (las más nuevas primero), con película, función, sala y asientos.
   async listarPorUsuario(usuarioId: number): Promise<ReservaDetalleDTO[]> {
     const [filas] = await pool.query<RowDataPacket[]>(
-      `SELECT r.id, r.total, r.estado, r.creada_en,
+      `SELECT r.id, r.total, r.metodo_pago, r.estado, r.creada_en,
               p.titulo AS pelicula, f.formato, f.fecha_hora, s.nombre AS sala,
               GROUP_CONCAT(CONCAT(a.fila, a.numero) ORDER BY a.fila, a.numero SEPARATOR ',') AS asientos
        FROM reservas r
@@ -45,7 +45,7 @@ export const ReservaRepository = {
        JOIN reserva_asientos ra ON ra.reserva_id = r.id
        JOIN asientos a ON a.id = ra.asiento_id
        WHERE r.usuario_id = ?
-       GROUP BY r.id, r.total, r.estado, r.creada_en, p.titulo, f.formato, f.fecha_hora, s.nombre
+       GROUP BY r.id, r.total, r.metodo_pago, r.estado, r.creada_en, p.titulo, f.formato, f.fecha_hora, s.nombre
        ORDER BY r.creada_en DESC, r.id DESC`,
       [usuarioId]
     );
@@ -54,6 +54,7 @@ export const ReservaRepository = {
       codigo: codigoReserva(f.id),
       estado: f.estado,
       total: f.total,
+      metodoPago: f.metodo_pago,
       creadaEn: f.creada_en,
       pelicula: f.pelicula,
       formato: f.formato,

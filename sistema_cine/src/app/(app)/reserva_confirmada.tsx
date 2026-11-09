@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { Animated, Easing, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Animated, Easing, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ import BotonRojo from "../../components/BotonRojo";
 import { colores } from "../../constants/colores";
 import { formatearPrecio } from "../../utils/formato";
 import { useMenuLateral } from "../../hooks/useMenuLateral";
+import { useCarritoCandy } from "../../services/carrito";
 
 type Params = {
   reservaId?: string;
@@ -34,6 +35,8 @@ export default function ReservaConfirmada() {
   const p = useLocalSearchParams<Params>();
   const escala = useRef(new Animated.Value(0.6)).current;
   const opacidad = useRef(new Animated.Value(0)).current;
+  const [candyVisible, setCandyVisible] = useState(false);
+  const { cantidadTotal: cantidadCarrito } = useCarritoCandy();
 
   useEffect(() => {
     Animated.parallel([
@@ -41,6 +44,16 @@ export default function ReservaConfirmada() {
       Animated.timing(opacidad, { toValue: 1, duration: 350, easing: Easing.out(Easing.ease), useNativeDriver: true }),
     ]).start();
   }, [escala, opacidad]);
+
+  useEffect(() => {
+    const temporizador = setTimeout(() => setCandyVisible(true), 900);
+    return () => clearTimeout(temporizador);
+  }, []);
+
+  const irAlCandyBar = () => {
+    setCandyVisible(false);
+    router.push("/tienda");
+  };
 
   const asientos = p.asientos ? p.asientos.split(",").filter(Boolean) : [];
 
@@ -104,6 +117,31 @@ export default function ReservaConfirmada() {
           <Text style={estilos.secundarioTexto}>Ver la dulcería</Text>
         </Pressable>
       </View>
+
+      <Modal visible={candyVisible} transparent animationType="fade" onRequestClose={() => setCandyVisible(false)}>
+        <View style={estilos.modalFondo}>
+          <View style={estilos.modalPanel}>
+            <View style={estilos.modalIcono}>
+              <Ionicons name="fast-food" size={30} color={colores.rojo} />
+            </View>
+            <Text style={estilos.modalTitulo}>¿Sumamos algo del candy bar?</Text>
+            <Text style={estilos.modalTexto}>
+              {cantidadCarrito > 0
+                ? `Ya tenés ${cantidadCarrito} ${cantidadCarrito === 1 ? "producto" : "productos"} en tu carrito. Completá el pedido y retiralo junto con tus entradas.`
+                : "Armá tu pedido ahora y retiralo junto con tus entradas, sin hacer fila."}
+            </Text>
+            <View style={estilos.modalBoton}>
+              <BotonRojo texto="Ir al candy bar" onPress={irAlCandyBar} />
+            </View>
+            <Pressable
+              onPress={() => setCandyVisible(false)}
+              style={({ pressed }) => [estilos.modalSecundario, pressed && estilos.secundarioPresionado]}
+            >
+              <Text style={estilos.modalSecundarioTexto}>Ahora no</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -152,4 +190,35 @@ const estilos = StyleSheet.create({
   secundario: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, paddingVertical: 10 },
   secundarioPresionado: { opacity: 0.6 },
   secundarioTexto: { color: colores.gris, fontSize: 14 },
+  modalFondo: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.65)",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 24,
+  },
+  modalPanel: {
+    width: "100%",
+    maxWidth: 380,
+    backgroundColor: colores.fondo,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: colores.borde,
+    padding: 22,
+    alignItems: "center",
+  },
+  modalIcono: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: colores.rojoSuave,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 14,
+  },
+  modalTitulo: { color: colores.texto, fontSize: 19, fontWeight: "bold", textAlign: "center" },
+  modalTexto: { color: colores.gris, textAlign: "center", lineHeight: 20, marginTop: 8, marginBottom: 18 },
+  modalBoton: { width: "100%" },
+  modalSecundario: { paddingVertical: 10, marginTop: 4 },
+  modalSecundarioTexto: { color: colores.gris, fontSize: 14, fontWeight: "600" },
 });
