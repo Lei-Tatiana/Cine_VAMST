@@ -1,28 +1,19 @@
 import { useCallback, useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-<<<<<<< HEAD
 import { Image } from "expo-image";
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { useFocusEffect, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Encabezado from "../../components/Encabezado";
 import BotonRojo from "../../components/BotonRojo";
 import TicketReserva from "../../components/TicketReserva";
 import TicketCandy from "../../components/TicketCandy";
-<<<<<<< HEAD
 import Aparicion from "../../components/Aparicion";
 import TituloSeccion from "../../components/TituloSeccion";
 import { colores } from "../../constants/colores";
 import { AVATARES, avatarPorId } from "../../data/avatares";
 import { useMenuLateral } from "../../hooks/useMenuLateral";
 import { getMisReservas, getMisPedidosCandy, loginUsuario, registrarUsuario, solicitarCodigoRecuperacion, restablecerPassword } from "../../services/api";
-=======
-import { colores } from "../../constants/colores";
-import { useMenuLateral } from "../../hooks/useMenuLateral";
-import { getMisReservas, getMisPedidosCandy, loginUsuario, registrarUsuario } from "../../services/api";
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { useSesion } from "../../services/sesion";
 import { PedidoCandy, ReservaDetalle } from "../../models/tipos";
 
@@ -30,33 +21,22 @@ import { PedidoCandy, ReservaDetalle } from "../../models/tipos";
 export default function Registro() {
   useMenuLateral(true);
   const router = useRouter();
-<<<<<<< HEAD
   const { usuario, avatar, iniciarSesion, cerrarSesion, elegirAvatar } = useSesion();
-=======
-  const { usuario, iniciarSesion, cerrarSesion } = useSesion();
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   const [tickets, setTickets] = useState<ReservaDetalle[]>([]);
   const [pedidosCandy, setPedidosCandy] = useState<PedidoCandy[]>([]);
   const [cargandoTickets, setCargandoTickets] = useState(false);
   const [errorTickets, setErrorTickets] = useState("");
-<<<<<<< HEAD
   const [modo, setModo] = useState<"login" | "registro" | "recuperar">("login");
-=======
-  const [modo, setModo] = useState<"login" | "registro">("login");
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
-<<<<<<< HEAD
   const [pasoRecuperacion, setPasoRecuperacion] = useState<"email" | "codigo">("email");
   const [codigo, setCodigo] = useState("");
   const [codigoDemo, setCodigoDemo] = useState("");
   const [nuevaPassword, setNuevaPassword] = useState("");
   const [recuperado, setRecuperado] = useState(false);
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
   const usuarioId = usuario?.id;
 
@@ -73,7 +53,6 @@ export default function Registro() {
     .finally(() => setCargandoTickets(false));
 }, [usuarioId]);
 
-<<<<<<< HEAD
 
   useFocusEffect(cargarTickets);
 
@@ -86,25 +65,16 @@ export default function Registro() {
     .filter((t) => new Date(t.fechaHora).getTime() < ahora)
     .sort((a, b) => new Date(b.fechaHora).getTime() - new Date(a.fechaHora).getTime());
 
-=======
-  // Se vuelve a pedir cada vez que se entra a esta pantalla: así, después de comprar,
-  // el ticket nuevo aparece enseguida.
-  useFocusEffect(cargarTickets);
-
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   const enviar = async () => {
     if (enviando) return;
     if (!email.trim() || !password || (modo === "registro" && !nombre.trim())) {
       setError("Completá todos los campos.");
       return;
     }
-<<<<<<< HEAD
     if (modo === "registro" && password.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     setEnviando(true);
     setError("");
     try {
@@ -127,7 +97,6 @@ export default function Registro() {
     router.replace("/elegir_pelicula");
   };
 
-<<<<<<< HEAD
   const volverALogin = () => {
     setModo("login");
     setPasoRecuperacion("email");
@@ -179,8 +148,6 @@ export default function Registro() {
     }
   };
 
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   return (
     <SafeAreaView style={estilos.pantalla}>
       <Encabezado titulo="Mi cuenta" volver menu={false} />
@@ -189,7 +156,6 @@ export default function Registro() {
         <ScrollView contentContainerStyle={estilos.contenido} keyboardShouldPersistTaps="handled">
           {usuario ? (
             <>
-<<<<<<< HEAD
               <Aparicion>
                 <View style={estilos.tarjeta}>
                   {avatarElegido ? (
@@ -240,18 +206,6 @@ export default function Registro() {
               <View style={estilos.tituloBloque}>
                 <TituloSeccion texto="Mis entradas" subtitulo="Tus próximas funciones y tu historial" tamano="grande" />
               </View>
-=======
-              <View style={estilos.tarjeta}>
-                <Ionicons name="person-circle" size={64} color={colores.rojo} />
-                <Text style={estilos.nombre}>{usuario.nombre}</Text>
-                <Text style={estilos.email}>{usuario.email}</Text>
-                <View style={estilos.boton}>
-                  <BotonRojo texto="Cerrar sesión" onPress={salir} />
-                </View>
-              </View>
-
-              <Text style={estilos.seccion}>Mis entradas</Text>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
               {cargandoTickets && tickets.length === 0 ? (
                 <ActivityIndicator color={colores.rojo} style={estilos.espacio} />
               ) : errorTickets ? (
@@ -270,7 +224,6 @@ export default function Registro() {
                   <Text style={estilos.vacioDetalle}>Cuando confirmes una compra, tu ticket va a aparecer acá.</Text>
                 </View>
               ) : (
-<<<<<<< HEAD
                 <>
                   <View style={estilos.grupo}>
                     <View style={estilos.tituloGrupo}>
@@ -320,15 +273,6 @@ export default function Registro() {
               <View style={estilos.tituloBloque}>
                 <TituloSeccion texto="Mis compras de candy bar" subtitulo="Pedidos para retirar en el candy bar" tamano="grande" />
               </View>
-=======
-                <View style={estilos.listaTickets}>
-                  {tickets.map((t) => (
-                    <TicketReserva key={t.id} reserva={t} />
-                  ))}
-                </View>
-              )}
-              <Text style={estilos.seccion}>Mis compras de candy bar</Text>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
               {cargandoTickets && pedidosCandy.length === 0 ? null : pedidosCandy.length === 0 ? (
                 <View style={estilos.vacio}>
                   <Ionicons name="fast-food-outline" size={36} color={colores.gris} />
@@ -345,7 +289,6 @@ export default function Registro() {
             </>
           ) : (
             <>
-<<<<<<< HEAD
               {modo === "recuperar" ? (
                 <>
                   <View style={estilos.recuperarEncabezado}>
@@ -530,68 +473,6 @@ export default function Registro() {
                   </View>
                 </>
               )}
-=======
-              <View style={estilos.tabs}>
-                <Pressable
-                  style={[estilos.tab, modo === "login" && estilos.tabActivo]}
-                  onPress={() => { setModo("login"); setError(""); }}
-                >
-                  <Text style={estilos.tabTexto}>Iniciar sesión</Text>
-                </Pressable>
-                <Pressable
-                  style={[estilos.tab, modo === "registro" && estilos.tabActivo]}
-                  onPress={() => { setModo("registro"); setError(""); }}
-                >
-                  <Text style={estilos.tabTexto}>Registrarse</Text>
-                </Pressable>
-              </View>
-
-              <View style={estilos.form}>
-                {modo === "registro" ? (
-                  <TextInput
-                    style={estilos.input}
-                    placeholder="Nombre y apellido"
-                    placeholderTextColor={colores.gris}
-                    value={nombre}
-                    onChangeText={setNombre}
-                  />
-                ) : null}
-                <TextInput
-                  style={estilos.input}
-                  placeholder="Email"
-                  placeholderTextColor={colores.gris}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  value={email}
-                  onChangeText={setEmail}
-                />
-                <TextInput
-                  style={estilos.input}
-                  placeholder="Contraseña"
-                  placeholderTextColor={colores.gris}
-                  secureTextEntry
-                  value={password}
-                  onChangeText={setPassword}
-                />
-
-                {error ? (
-                  <View style={estilos.error}>
-                    <Ionicons name="alert-circle" size={18} color={colores.rojo} />
-                    <Text style={estilos.errorTexto}>{error}</Text>
-                  </View>
-                ) : null}
-
-                <View style={estilos.boton}>
-                  {enviando ? (
-                    <View style={estilos.cargando}>
-                      <ActivityIndicator color={colores.texto} />
-                    </View>
-                  ) : (
-                    <BotonRojo texto={modo === "registro" ? "Crear cuenta" : "Ingresar"} onPress={enviar} />
-                  )}
-                </View>
-              </View>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
             </>
           )}
         </ScrollView>
@@ -615,7 +496,6 @@ const estilos = StyleSheet.create({
   },
   nombre: { color: colores.texto, fontSize: 22, fontWeight: "bold", marginTop: 8 },
   email: { color: colores.gris },
-<<<<<<< HEAD
   avatarGrande: {
     width: 88,
     height: 88,
@@ -660,8 +540,6 @@ const estilos = StyleSheet.create({
     borderColor: colores.tarjeta,
   },
   avatarNombre: { color: colores.gris, fontSize: 12 },
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   tabs: {
     flexDirection: "row",
     backgroundColor: colores.tarjeta,
@@ -688,7 +566,6 @@ const estilos = StyleSheet.create({
   error: { flexDirection: "row", alignItems: "center", gap: 8 },
   errorTexto: { color: colores.rojo, flex: 1 },
   boton: { marginTop: 8 },
-<<<<<<< HEAD
   tituloBloque: { marginTop: 28, marginBottom: 12 },
   tituloGrupo: { marginBottom: 10 },
   grupo: { marginBottom: 22 },
@@ -703,9 +580,6 @@ const estilos = StyleSheet.create({
     padding: 14,
   },
   grupoVacioTexto: { color: colores.gris },
-=======
-  seccion: { color: colores.texto, fontSize: 18, fontWeight: "bold", marginTop: 28, marginBottom: 12 },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   espacio: { marginTop: 20 },
   listaTickets: { gap: 14 },
   vacio: { alignItems: "center", gap: 6, paddingVertical: 24, paddingHorizontal: 16 },
@@ -713,7 +587,6 @@ const estilos = StyleSheet.create({
   vacioDetalle: { color: colores.gris, textAlign: "center" },
   botonChico: { marginTop: 8, width: "60%" },
   cargando: { backgroundColor: colores.rojo, opacity: 0.7, borderRadius: 10, paddingVertical: 14, alignItems: "center" },
-<<<<<<< HEAD
   olvido: { alignItems: "center", paddingVertical: 6 },
   olvidoTexto: { color: colores.gris, fontSize: 13, fontWeight: "600" },
   recuperarEncabezado: { gap: 8, marginBottom: 20 },
@@ -738,6 +611,4 @@ const estilos = StyleSheet.create({
   exitoTitulo: { color: colores.texto, fontSize: 20, fontWeight: "bold", marginTop: 8 },
   exitoTexto: { color: colores.gris, textAlign: "center" },
   botonExito: { marginTop: 12, width: "100%" },
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 });

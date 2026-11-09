@@ -52,10 +52,6 @@ const estilos = StyleSheet.create({
   },
   volver: { flexDirection: "row", alignItems: "center" },
   texto: { color: colores.texto, fontSize: 16 },
-<<<<<<< HEAD
   titulo: { flex: 1, color: colores.texto, fontSize: 20, fontWeight: "800", letterSpacing: 0.4 },
-=======
-  titulo: { flex: 1, color: colores.texto, fontSize: 18, fontWeight: "bold" },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   derecha: { flexDirection: "row", alignItems: "center", gap: 12 },
 });

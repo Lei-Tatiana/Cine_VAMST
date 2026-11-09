@@ -1,28 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-<<<<<<< HEAD
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-=======
-import { Ionicons } from "@expo/vector-icons";
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import Encabezado from "../../components/Encabezado";
 import Chip from "../../components/Chip";
 import ProductoFila from "../../components/ProductoFila";
 import BotonRojo from "../../components/BotonRojo";
-<<<<<<< HEAD
 import FormularioPago from "../../components/FormularioPago";
 import Aparicion from "../../components/Aparicion";
 import TituloSeccion from "../../components/TituloSeccion";
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { colores } from "../../constants/colores";
 import { useMenuLateral } from "../../hooks/useMenuLateral";
 import { crearPedidoCandy, getProductosCandy } from "../../services/api";
 import { useSesion } from "../../services/sesion";
-<<<<<<< HEAD
 import { useCarritoCandy } from "../../services/carrito";
 import { formatearPrecio } from "../../utils/formato";
 import { descripcionProducto, imagenCandy, imagenCategoria } from "../../data/candy";
@@ -39,21 +31,6 @@ export default function Tienda() {
   const [error, setError] = useState("");
   const [carritoVisible, setCarritoVisible] = useState(false);
   const [paso, setPaso] = useState<"resumen" | "pago">("resumen");
-=======
-import { formatearPrecio } from "../../utils/formato";
-import { ProductoCandy } from "../../models/tipos";
-
-export default function Tienda() {
-  useMenuLateral(true);
-  const { usuario } = useSesion();
-  const [productos, setProductos] = useState<ProductoCandy[]>([]);
-  const [categoria, setCategoria] = useState("todos");
-  const [carrito, setCarrito] = useState<{ [id: number]: number }>({});
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState("");
-  const [carritoVisible, setCarritoVisible] = useState(false);
-  const [enviando, setEnviando] = useState(false);
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   const [pedido, setPedido] = useState<{ id: number; total: number } | null>(null);
 
   const cargar = useCallback(() => {
@@ -70,26 +47,12 @@ export default function Tienda() {
   const categorias = ["todos", ...new Set(productos.map((p) => p.categoria))];
   const visibles = categoria === "todos" ? productos : productos.filter((p) => p.categoria === categoria);
 
-<<<<<<< HEAD
-=======
-  const agregar = (id: number) => setCarrito((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
-  const quitar = (id: number) =>
-    setCarrito((prev) => {
-      const cantidad = (prev[id] ?? 0) - 1;
-      const nuevo = { ...prev };
-      if (cantidad <= 0) delete nuevo[id];
-      else nuevo[id] = cantidad;
-      return nuevo;
-    });
-
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   const items = productos
     .filter((p) => carrito[p.id])
     .map((p) => ({ ...p, cantidad: carrito[p.id] }));
   const cantidadTotal = items.reduce((s, i) => s + i.cantidad, 0);
   const total = items.reduce((s, i) => s + i.precio * i.cantidad, 0);
 
-<<<<<<< HEAD
   const confirmarPedido = async (metodoPago: MetodoPago) => {
     if (!usuario || items.length === 0) return;
     const creado = await crearPedidoCandy(
@@ -100,28 +63,10 @@ export default function Tienda() {
     setPedido({ id: creado.id, total: creado.total });
     setPaso("resumen");
     vaciar();
-=======
-  const confirmarPedido = async () => {
-    if (enviando || items.length === 0) return;
-    setEnviando(true);
-    try {
-      const creado = await crearPedidoCandy(
-        usuario?.id ?? null,
-        items.map((i) => ({ productoId: i.id, cantidad: i.cantidad }))
-      );
-      setPedido({ id: creado.id, total: creado.total });
-      setCarrito({});
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setEnviando(false);
-    }
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   };
 
   const abrirCarrito = () => {
     setPedido(null);
-<<<<<<< HEAD
     setPaso("resumen");
     setCarritoVisible(true);
   };
@@ -131,11 +76,6 @@ export default function Tienda() {
     setPaso("resumen");
   };
 
-=======
-    setCarritoVisible(true);
-  };
-
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   return (
     <SafeAreaView style={estilos.pantalla}>
       <Encabezado
@@ -168,7 +108,6 @@ export default function Tienda() {
           </View>
         </View>
       ) : (
-<<<<<<< HEAD
         <ScrollView style={estilos.lista} contentContainerStyle={estilos.contenido}>
           <Aparicion>
             <View style={estilos.banner}>
@@ -191,15 +130,6 @@ export default function Tienda() {
             style={estilos.chipsFila}
             contentContainerStyle={estilos.chips}
           >
-=======
-        <ScrollView contentContainerStyle={estilos.contenido}>
-          <View style={estilos.banner}>
-            <Ionicons name="fast-food-outline" size={28} color={colores.rojo} />
-            <Text style={estilos.bannerTexto}>Armá tu pedido y retiralo por el candy bar</Text>
-          </View>
-
-          <View style={estilos.chips}>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
             {categorias.map((c) => (
               <Chip
                 key={c}
@@ -208,7 +138,6 @@ export default function Tienda() {
                 onPress={() => setCategoria(c)}
               />
             ))}
-<<<<<<< HEAD
           </ScrollView>
 
           <View style={estilos.tituloProductos}>
@@ -268,48 +197,17 @@ export default function Tienda() {
                   <Ionicons name="close" size={26} color={colores.texto} />
                 </Pressable>
               </View>
-=======
-          </View>
-
-          {visibles.map((p) => (
-            <ProductoFila
-              key={p.id}
-              nombre={p.nombre}
-              precio={p.precio.toLocaleString("es-AR")}
-              onAgregar={() => agregar(p.id)}
-            />
-          ))}
-        </ScrollView>
-      )}
-
-      <Modal visible={carritoVisible} transparent animationType="slide" onRequestClose={() => setCarritoVisible(false)}>
-        <View style={estilos.modalFondo}>
-          <View style={estilos.modalPanel}>
-            <View style={estilos.modalEncabezado}>
-              <Text style={estilos.modalTitulo}>{pedido ? "Pedido confirmado" : "Tu carrito"}</Text>
-              <Pressable onPress={() => setCarritoVisible(false)} hitSlop={8}>
-                <Ionicons name="close" size={26} color={colores.texto} />
-              </Pressable>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
             </View>
 
             {pedido ? (
               <View style={estilos.exito}>
                 <Ionicons name="checkmark-circle" size={72} color={colores.rojo} />
-<<<<<<< HEAD
                 <Text style={estilos.exitoTitulo}>¡Compra confirmada!</Text>
                 <Text style={estilos.exitoCodigo}>{`CANDY-${String(pedido.id).padStart(5, "0")}`}</Text>
                 <Text style={estilos.exitoTotal}>{formatearPrecio(pedido.total)}</Text>
                 <Text style={estilos.exitoDetalle}>Mostrá este código en el candy bar para retirar tu pedido.</Text>
                 <View style={estilos.exitoBoton}>
                   <BotonRojo texto="Listo" onPress={cerrarCarrito} />
-=======
-                <Text style={estilos.exitoTitulo}>¡Listo! Pedido #{pedido.id}</Text>
-                <Text style={estilos.exitoTotal}>{formatearPrecio(pedido.total)}</Text>
-                <Text style={estilos.exitoDetalle}>Presentá el número de pedido en el candy bar para retirarlo.</Text>
-                <View style={estilos.exitoBoton}>
-                  <BotonRojo texto="Seguir comprando" onPress={() => setCarritoVisible(false)} />
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
                 </View>
               </View>
             ) : items.length === 0 ? (
@@ -317,7 +215,6 @@ export default function Tienda() {
                 <Ionicons name="cart-outline" size={56} color={colores.gris} />
                 <Text style={estilos.vacioTexto}>Tu carrito está vacío</Text>
               </View>
-<<<<<<< HEAD
             ) : !usuario ? (
               <View style={estilos.acceso}>
                 <View style={estilos.accesoIcono}>
@@ -363,13 +260,6 @@ export default function Tienda() {
                   {items.map((i) => (
                     <View key={i.id} style={estilos.item}>
                       <Image source={imagenCandy(i.nombre, i.categoria)} style={estilos.itemFoto} contentFit="cover" />
-=======
-            ) : (
-              <>
-                <ScrollView style={estilos.modalLista}>
-                  {items.map((i) => (
-                    <View key={i.id} style={estilos.item}>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
                       <View style={estilos.itemInfo}>
                         <Text style={estilos.itemNombre}>{i.nombre}</Text>
                         <Text style={estilos.itemPrecio}>{formatearPrecio(i.precio)} c/u</Text>
@@ -388,7 +278,6 @@ export default function Tienda() {
                   ))}
                 </ScrollView>
 
-<<<<<<< HEAD
                 <View style={estilos.modalPie}>
                   <View style={estilos.modalTotal}>
                     <Text style={estilos.modalTotalEtiqueta}>Total a pagar</Text>
@@ -396,23 +285,6 @@ export default function Tienda() {
                   </View>
                   <View style={estilos.modalBoton}>
                     <BotonRojo texto="Ir a pagar" onPress={() => setPaso("pago")} />
-=======
-                {error ? <Text style={estilos.modalError}>{error}</Text> : null}
-
-                <View style={estilos.modalPie}>
-                  <View style={estilos.modalTotal}>
-                    <Text style={estilos.modalTotalEtiqueta}>Total</Text>
-                    <Text style={estilos.modalTotalMonto}>{formatearPrecio(total)}</Text>
-                  </View>
-                  <View style={estilos.modalBoton}>
-                    {enviando ? (
-                      <View style={estilos.cargando}>
-                        <ActivityIndicator color={colores.texto} />
-                      </View>
-                    ) : (
-                      <BotonRojo texto="Confirmar pedido" onPress={confirmarPedido} />
-                    )}
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
                   </View>
                 </View>
               </>
@@ -426,12 +298,8 @@ export default function Tienda() {
 
 const estilos = StyleSheet.create({
   pantalla: { flex: 1, backgroundColor: colores.fondo },
-<<<<<<< HEAD
   lista: { flex: 1 },
   contenido: { padding: 16, paddingBottom: 28 },
-=======
-  contenido: { padding: 16, paddingBottom: 40 },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   centro: { flex: 1, alignItems: "center", justifyContent: "center", padding: 24, gap: 10 },
   errorTexto: { color: colores.texto, fontSize: 18, fontWeight: "bold", marginTop: 8 },
   errorDetalle: { color: colores.gris, textAlign: "center" },
@@ -451,7 +319,6 @@ const estilos = StyleSheet.create({
   },
   badgeTexto: { color: colores.texto, fontSize: 11, fontWeight: "bold" },
   banner: {
-<<<<<<< HEAD
     height: 132,
     borderRadius: 16,
     overflow: "hidden",
@@ -479,20 +346,6 @@ const estilos = StyleSheet.create({
   chipsFila: { marginHorizontal: -16, marginBottom: 20 },
   chips: { gap: 8, paddingHorizontal: 16 },
   tituloProductos: { marginBottom: 12 },
-=======
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    borderRadius: 12,
-    backgroundColor: colores.tarjeta,
-    borderWidth: 1,
-    borderColor: colores.borde,
-    padding: 16,
-    marginBottom: 16,
-  },
-  bannerTexto: { flex: 1, color: colores.texto, fontWeight: "600" },
-  chips: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 16 },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   modalFondo: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", justifyContent: "flex-end" },
   modalPanel: {
     backgroundColor: colores.fondo,
@@ -502,7 +355,6 @@ const estilos = StyleSheet.create({
     maxHeight: "80%",
   },
   modalEncabezado: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16 },
-<<<<<<< HEAD
   modalAcciones: { flexDirection: "row", alignItems: "center", gap: 16 },
   vaciar: { color: colores.gris, fontSize: 13, fontWeight: "600" },
   modalTitulo: { color: colores.texto, fontSize: 20, fontWeight: "bold" },
@@ -544,9 +396,6 @@ const estilos = StyleSheet.create({
   accesoSecundario: { color: colores.gris, fontSize: 13, fontWeight: "600", paddingVertical: 6 },
   volverPago: { alignSelf: "center", paddingVertical: 12 },
   volverPagoTexto: { color: colores.gris, fontSize: 13, fontWeight: "600" },
-=======
-  modalTitulo: { color: colores.texto, fontSize: 20, fontWeight: "bold" },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   modalLista: { maxHeight: 320 },
   item: {
     flexDirection: "row",
@@ -558,10 +407,7 @@ const estilos = StyleSheet.create({
     marginBottom: 10,
   },
   itemInfo: { flex: 1 },
-<<<<<<< HEAD
   itemFoto: { width: 44, height: 44, borderRadius: 8, backgroundColor: "#2a2a2a" },
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   itemNombre: { color: colores.texto, fontWeight: "600" },
   itemPrecio: { color: colores.gris, fontSize: 12, marginTop: 2 },
   stepper: { flexDirection: "row", alignItems: "center", gap: 8 },
@@ -575,16 +421,11 @@ const estilos = StyleSheet.create({
   },
   stepperCantidad: { color: colores.texto, fontWeight: "bold", minWidth: 20, textAlign: "center" },
   itemSubtotal: { color: colores.texto, fontWeight: "bold", minWidth: 70, textAlign: "right" },
-<<<<<<< HEAD
-=======
-  modalError: { color: colores.rojo, marginBottom: 10 },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   modalPie: { flexDirection: "row", alignItems: "center", gap: 16, marginTop: 12 },
   modalTotal: { flex: 1 },
   modalTotalEtiqueta: { color: colores.gris, fontSize: 12 },
   modalTotalMonto: { color: colores.texto, fontSize: 22, fontWeight: "bold" },
   modalBoton: { flex: 1.4 },
-<<<<<<< HEAD
   barraCarrito: {
     flexDirection: "row",
     alignItems: "center",
@@ -609,17 +450,11 @@ const estilos = StyleSheet.create({
   },
   barraBotonPresionado: { opacity: 0.85, transform: [{ scale: 0.97 }] },
   barraBotonTexto: { color: colores.texto, fontWeight: "700" },
-=======
-  cargando: { backgroundColor: colores.rojo, opacity: 0.7, borderRadius: 10, paddingVertical: 14, alignItems: "center" },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   vacio: { alignItems: "center", paddingVertical: 40, gap: 12 },
   vacioTexto: { color: colores.gris },
   exito: { alignItems: "center", paddingVertical: 20, gap: 8 },
   exitoTitulo: { color: colores.texto, fontSize: 20, fontWeight: "bold", marginTop: 8 },
-<<<<<<< HEAD
   exitoCodigo: { color: colores.dorado, fontSize: 22, fontWeight: "800", letterSpacing: 2 },
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   exitoTotal: { color: colores.texto, fontSize: 28, fontWeight: "bold" },
   exitoDetalle: { color: colores.gris, textAlign: "center", marginTop: 4, marginBottom: 12 },
   exitoBoton: { width: "100%" },

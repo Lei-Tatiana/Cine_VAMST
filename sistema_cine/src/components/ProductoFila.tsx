@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-<<<<<<< HEAD
 import { Image, ImageSource } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
@@ -62,25 +61,6 @@ export default function ProductoFila({ nombre, precio, categoria, imagen, descri
           <Text style={estilos.botonTexto}>Agregar</Text>
         </Pressable>
       )}
-=======
-import { colores } from "../constants/colores";
-
-type Props = { nombre: string; precio: string; onAgregar: () => void };
-
-export default function ProductoFila({ nombre, precio, onAgregar }: Props) {
-  return (
-    <View style={estilos.fila}>
-      <View style={estilos.foto}>
-        <Text style={estilos.fotoTexto}>Foto</Text>
-      </View>
-      <View style={estilos.info}>
-        <Text style={estilos.nombre}>{nombre}</Text>
-        <Text style={estilos.precio}>${precio}</Text>
-      </View>
-      <Pressable onPress={onAgregar} style={estilos.boton}>
-        <Text style={estilos.botonTexto}>+ Agregar</Text>
-      </Pressable>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     </View>
   );
 }
@@ -91,18 +71,13 @@ const estilos = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     backgroundColor: colores.tarjeta,
-<<<<<<< HEAD
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.06)",
     borderRadius: 14,
-=======
-    borderRadius: 10,
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     padding: 10,
     marginBottom: 10,
   },
   foto: {
-<<<<<<< HEAD
     width: 68,
     height: 68,
     borderRadius: 12,
@@ -151,24 +126,4 @@ const estilos = StyleSheet.create({
     justifyContent: "center",
   },
   stepperCantidad: { color: colores.texto, fontWeight: "800", minWidth: 18, textAlign: "center" },
-=======
-    width: 56,
-    height: 56,
-    borderRadius: 8,
-    backgroundColor: "#2a2a2a",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  fotoTexto: { color: colores.gris, fontSize: 12 },
-  info: { flex: 1 },
-  nombre: { color: colores.texto, fontWeight: "bold" },
-  precio: { color: colores.gris, marginTop: 2 },
-  boton: {
-    backgroundColor: colores.rojo,
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  botonTexto: { color: colores.texto, fontWeight: "bold" },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 });

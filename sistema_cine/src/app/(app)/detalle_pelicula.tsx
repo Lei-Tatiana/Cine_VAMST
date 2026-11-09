@@ -8,11 +8,8 @@ import Encabezado from "../../components/Encabezado";
 import Chip from "../../components/Chip";
 import BotonRojo from "../../components/BotonRojo";
 import TarjetaPelicula from "../../components/TarjetaPelicula";
-<<<<<<< HEAD
 import TituloSeccion from "../../components/TituloSeccion";
 import Aparicion from "../../components/Aparicion";
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { colores } from "../../constants/colores";
 import { getFunciones, getPeliculaPorId, getPeliculas } from "../../services/api";
 import { formatearDuracion, formatearFecha, formatearHora, formatearPrecio } from "../../utils/formato";
@@ -95,7 +92,6 @@ export default function DetallePelicula() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={estilos.contenido}>
-<<<<<<< HEAD
           <Aparicion style={estilos.ficha}>
             <View style={estilos.posterContenedor}>
               <Image source={{ uri: pelicula.posterUrl }} style={estilos.poster} contentFit="cover" transition={200} />
@@ -107,10 +103,6 @@ export default function DetallePelicula() {
                 </View>
               ) : null}
             </View>
-=======
-          <View style={estilos.ficha}>
-            <Image source={{ uri: pelicula.posterUrl }} style={estilos.poster} contentFit="cover" />
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
             <View style={estilos.fichaInfo}>
               <Text style={estilos.titulo}>{pelicula.titulo}</Text>
               <View style={estilos.info}>
@@ -123,7 +115,6 @@ export default function DetallePelicula() {
               </View>
               <Text style={estilos.edad}>{pelicula.clasificacion}</Text>
             </View>
-<<<<<<< HEAD
           </Aparicion>
 
           <Aparicion delay={70}>
@@ -183,69 +174,16 @@ export default function DetallePelicula() {
               </View>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={estilos.carrusel}>
                 {sugeridas.slice(0, 8).map((p) => (
-=======
-          </View>
-
-          <Text style={estilos.sinopsis}>{pelicula.sinopsis}</Text>
-
-          <Text style={estilos.seccion}>Horarios y salas</Text>
-          {dias.length === 0 ? (
-            <Text style={estilos.sinFunciones}>No hay funciones programadas para esta película.</Text>
-          ) : (
-            <>
-              <View style={estilos.chips}>
-                {dias.map((d) => (
-                  <Chip key={d} texto={d} activo={d === dia} onPress={() => elegirDia(d)} />
-                ))}
-              </View>
-              <View style={estilos.chips}>
-                {funcionesDelDia.map((f) => (
-                  <Chip
-                    key={f.id}
-                    texto={formatearHora(f.fechaHora)}
-                    activo={f.id === funcionId}
-                    onPress={() => setFuncionId(f.id)}
-                  />
-                ))}
-              </View>
-              {funcion ? (
-                <Text style={estilos.funcionDetalle}>
-                  {funcion.formato} · Sala {funcion.salaId} · {formatearPrecio(funcion.precioBase)}
-                </Text>
-              ) : null}
-              <View style={estilos.boton}>
-                <BotonRojo
-                  texto="Seleccionar asientos / continuar"
-                  desactivado={!funcion}
-                  onPress={irAAsientos}
-                />
-              </View>
-            </>
-          )}
-
-          {sugeridas.length > 0 ? (
-            <>
-              <Text style={estilos.seccion}>También te podría gustar</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={estilos.carrusel}>
-                {sugeridas.map((p) => (
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
                   <TarjetaPelicula
                     key={p.id}
                     titulo={p.titulo}
                     posterUrl={p.posterUrl}
-<<<<<<< HEAD
                     compacta
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
                     onPress={() => router.replace({ pathname: "/detalle_pelicula", params: { id: String(p.id) } })}
                   />
                 ))}
               </ScrollView>
-<<<<<<< HEAD
             </Aparicion>
-=======
-            </>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
           ) : null}
         </ScrollView>
       )}
@@ -261,7 +199,6 @@ const estilos = StyleSheet.create({
   errorDetalle: { color: colores.gris, textAlign: "center" },
   reintentar: { marginTop: 12, width: "60%" },
   ficha: { flexDirection: "row", gap: 16 },
-<<<<<<< HEAD
   posterContenedor: { width: 120, height: 175 },
   poster: { width: "100%", height: "100%", borderRadius: 10, backgroundColor: colores.tarjeta },
   estadoBadge: {
@@ -274,9 +211,6 @@ const estilos = StyleSheet.create({
     paddingVertical: 3,
   },
   estadoTexto: { color: colores.texto, fontSize: 9, fontWeight: "900", letterSpacing: 0.6 },
-=======
-  poster: { width: 120, height: 175, borderRadius: 10, backgroundColor: colores.tarjeta },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   fichaInfo: { flex: 1, justifyContent: "center", gap: 8 },
   titulo: { color: colores.texto, fontSize: 24, fontWeight: "bold" },
   info: { flexDirection: "row", alignItems: "center", gap: 6 },
@@ -292,7 +226,6 @@ const estilos = StyleSheet.create({
     marginTop: 4,
   },
   sinopsis: { color: colores.gris, lineHeight: 21, marginTop: 16 },
-<<<<<<< HEAD
   proximamente: {
     flexDirection: "row",
     alignItems: "center",
@@ -307,9 +240,6 @@ const estilos = StyleSheet.create({
   },
   proximamenteTexto: { color: colores.gris, fontWeight: "600" },
   tituloSeccion: { marginTop: 28, marginBottom: 12 },
-=======
-  seccion: { color: colores.texto, fontSize: 18, fontWeight: "bold", marginTop: 28, marginBottom: 12 },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   sinFunciones: { color: colores.gris },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 10 },
   funcionDetalle: { color: colores.gris, marginTop: 4 },

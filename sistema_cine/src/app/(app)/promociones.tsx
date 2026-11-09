@@ -1,14 +1,9 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-<<<<<<< HEAD
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import Encabezado from "../../components/Encabezado";
 import Aparicion from "../../components/Aparicion";
-=======
-import { Ionicons } from "@expo/vector-icons";
-import Encabezado from "../../components/Encabezado";
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { colores } from "../../constants/colores";
 import { PROMOS } from "../../data/promos";
 import { useMenuLateral } from "../../hooks/useMenuLateral";
@@ -21,7 +16,6 @@ export default function Promociones() {
       <Encabezado titulo="Promociones" volver menu={false} />
 
       <ScrollView contentContainerStyle={estilos.contenido}>
-<<<<<<< HEAD
         <Aparicion style={estilos.encabezado}>
           <Text style={estilos.overline}>BENEFICIOS</Text>
           <Text style={estilos.tituloGrande}>Promos para tu salida</Text>
@@ -48,20 +42,6 @@ export default function Promociones() {
               </View>
             </View>
           </Aparicion>
-=======
-        <Text style={estilos.subtitulo}>Beneficios vigentes para vos</Text>
-        {PROMOS.map((p) => (
-          <View key={p.titulo} style={estilos.tarjeta}>
-            <View style={estilos.icono}>
-              <Ionicons name={p.icono} size={26} color={colores.rojo} />
-            </View>
-            <View style={estilos.info}>
-              <Text style={estilos.titulo}>{p.titulo}</Text>
-              <Text style={estilos.detalle}>{p.detalle}</Text>
-              <Text style={estilos.vigencia}>{p.vigencia}</Text>
-            </View>
-          </View>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -70,7 +50,6 @@ export default function Promociones() {
 
 const estilos = StyleSheet.create({
   pantalla: { flex: 1, backgroundColor: colores.fondo },
-<<<<<<< HEAD
   contenido: { padding: 16, paddingBottom: 40, gap: 16 },
   encabezado: { gap: 2, marginBottom: 4 },
   overline: { color: colores.rojo, fontSize: 11, fontWeight: "800", letterSpacing: 2 },
@@ -115,29 +94,4 @@ const estilos = StyleSheet.create({
   info: { padding: 16, gap: 6 },
   titulo: { color: colores.texto, fontSize: 19, fontWeight: "800" },
   detalle: { color: colores.gris, lineHeight: 20 },
-=======
-  contenido: { padding: 16, paddingBottom: 40, gap: 12 },
-  subtitulo: { color: colores.gris, marginBottom: 4 },
-  tarjeta: {
-    flexDirection: "row",
-    gap: 14,
-    backgroundColor: colores.tarjeta,
-    borderWidth: 1,
-    borderColor: colores.borde,
-    borderRadius: 12,
-    padding: 16,
-  },
-  icono: {
-    width: 48,
-    height: 48,
-    borderRadius: 10,
-    backgroundColor: "rgba(229,9,20,0.12)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  info: { flex: 1 },
-  titulo: { color: colores.texto, fontSize: 16, fontWeight: "bold" },
-  detalle: { color: colores.gris, marginTop: 4, lineHeight: 19 },
-  vigencia: { color: colores.rojo, fontSize: 12, fontWeight: "600", marginTop: 8 },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 });

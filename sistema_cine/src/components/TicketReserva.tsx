@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
 import { ReservaDetalle } from "../models/tipos";
-<<<<<<< HEAD
 import { formatearFecha, formatearHora, formatearPrecio, etiquetaMetodoPago } from "../utils/formato";
 
 // Ticket de una compra ya hecha. 
@@ -18,16 +17,6 @@ export default function TicketReserva({ reserva, pasada = false }: { reserva: Re
         </View>
       ) : null}
 
-=======
-import { formatearFecha, formatearHora, formatearPrecio } from "../utils/formato";
-
-// Ticket de una compra ya hecha. Se usa en "Mis tickets" del perfil.
-export default function TicketReserva({ reserva }: { reserva: ReservaDetalle }) {
-  const cantidad = reserva.asientos.length;
-
-  return (
-    <View style={estilos.ticket}>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
       <View style={estilos.encabezado}>
         <View style={estilos.titulo}>
           <Text style={estilos.pelicula} numberOfLines={2}>{reserva.pelicula}</Text>
@@ -50,14 +39,11 @@ export default function TicketReserva({ reserva }: { reserva: ReservaDetalle }) 
         <Text style={estilos.valor}>{reserva.sala}</Text>
       </View>
       <View style={estilos.fila}>
-<<<<<<< HEAD
         <Ionicons name="card-outline" size={18} color={colores.gris} />
         <Text style={estilos.etiqueta}>Pago</Text>
         <Text style={estilos.valor}>{etiquetaMetodoPago(reserva.metodoPago)}</Text>
       </View>
       <View style={estilos.fila}>
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
         <Ionicons name="grid-outline" size={18} color={colores.gris} />
         <Text style={estilos.etiqueta}>Asientos</Text>
         <View style={estilos.chips}>
@@ -96,12 +82,9 @@ const estilos = StyleSheet.create({
     gap: 12,
     overflow: "hidden",
   },
-<<<<<<< HEAD
   ticketPasado: { opacity: 0.75 },
   etiquetaPasada: { flexDirection: "row", alignItems: "center", gap: 5 },
   etiquetaPasadaTexto: { color: colores.gris, fontSize: 11, fontWeight: "600", letterSpacing: 0.4 },
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   encabezado: { flexDirection: "row", alignItems: "center", gap: 12 },
   titulo: { flex: 1 },
   pelicula: { color: colores.texto, fontSize: 18, fontWeight: "bold" },

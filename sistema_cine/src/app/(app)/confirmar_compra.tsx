@@ -1,27 +1,17 @@
 import { useState } from "react";
-<<<<<<< HEAD
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-=======
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from "react-native";
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Encabezado from "../../components/Encabezado";
 import BotonRojo from "../../components/BotonRojo";
-<<<<<<< HEAD
 import FormularioPago from "../../components/FormularioPago";
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { colores } from "../../constants/colores";
 import { formatearPrecio } from "../../utils/formato";
 import { crearReserva } from "../../services/api";
 import { useSesion } from "../../services/sesion";
 import { useMenuLateral } from "../../hooks/useMenuLateral";
-<<<<<<< HEAD
 import { MetodoPago } from "../../models/tipos";
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
 type Params = {
   funcionId?: string;
@@ -49,18 +39,13 @@ export default function ConfirmarCompra() {
   const router = useRouter();
   const p = useLocalSearchParams<Params>();
   const { usuario } = useSesion();
-<<<<<<< HEAD
   const [pagoVisible, setPagoVisible] = useState(false);
-=======
-  const [confirmando, setConfirmando] = useState(false);
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
   const asientos = p.asientos ? p.asientos.split(",").filter(Boolean) : [];
   const ids = p.asientosIds ? p.asientosIds.split(",").map(Number) : [];
   const cantidad = asientos.length;
   const total = Number(p.total ?? 0);
 
-<<<<<<< HEAD
   const pagarYConfirmar = async (metodoPago: MetodoPago) => {
     if (!usuario) throw new Error("Iniciá sesión para comprar tus entradas.");
     const reserva = await crearReserva(usuario.id, Number(p.funcionId), ids, metodoPago);
@@ -80,38 +65,12 @@ export default function ConfirmarCompra() {
   };
 
   const continuar = () => {
-=======
-  const confirmar = async () => {
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     if (!usuario) {
       router.push("/registro");
       return;
     }
-<<<<<<< HEAD
     if (ids.length === 0) return;
     setPagoVisible(true);
-=======
-    if (confirmando || ids.length === 0) return;
-    setConfirmando(true);
-    try {
-      const reserva = await crearReserva(usuario.id, Number(p.funcionId), ids);
-      router.replace({
-        pathname: "/reserva_confirmada",
-        params: {
-          reservaId: reserva.codigo,
-          total: String(reserva.total),
-          pelicula: p.pelicula ?? "",
-          funcion: p.funcion ?? "",
-          formato: p.formato ?? "",
-          sala: p.sala ?? "",
-          asientos: asientos.join(","),
-        },
-      });
-    } catch (e: any) {
-      Alert.alert("No se pudo confirmar", e.message);
-      setConfirmando(false);
-    }
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   };
 
   return (
@@ -185,7 +144,6 @@ export default function ConfirmarCompra() {
           <Text style={estilos.pieMonto}>{formatearPrecio(total)}</Text>
         </View>
         <View style={estilos.pieBoton}>
-<<<<<<< HEAD
           <BotonRojo
             texto={usuario ? "Ir a pagar" : "Iniciar sesión para comprar"}
             desactivado={cantidad === 0}
@@ -219,22 +177,6 @@ export default function ConfirmarCompra() {
           </View>
         </View>
       </Modal>
-=======
-          {confirmando ? (
-            <View style={estilos.botonCargando}>
-              <ActivityIndicator color={colores.texto} />
-              <Text style={estilos.botonCargandoTexto}>Confirmando…</Text>
-            </View>
-          ) : (
-            <BotonRojo
-              texto={usuario ? "Confirmar compra" : "Iniciar sesión para comprar"}
-              desactivado={cantidad === 0}
-              onPress={confirmar}
-            />
-          )}
-        </View>
-      </View>
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     </SafeAreaView>
   );
 }
@@ -317,7 +259,6 @@ const estilos = StyleSheet.create({
   pieEtiqueta: { color: colores.gris, fontSize: 12 },
   pieMonto: { color: colores.texto, fontSize: 22, fontWeight: "bold", marginTop: 2 },
   pieBoton: { flex: 1.4 },
-<<<<<<< HEAD
   modalFondo: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", justifyContent: "flex-end" },
   modalPanel: {
     backgroundColor: colores.fondo,
@@ -331,17 +272,4 @@ const estilos = StyleSheet.create({
   modalTitulo: { color: colores.texto, fontSize: 20, fontWeight: "bold" },
   modalSubtitulo: { color: colores.gris, fontSize: 12, marginTop: 2 },
   modalScroll: { maxHeight: 520 },
-=======
-  botonCargando: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    backgroundColor: colores.rojo,
-    opacity: 0.7,
-    paddingVertical: 14,
-    borderRadius: 10,
-  },
-  botonCargandoTexto: { color: colores.texto, fontSize: 16, fontWeight: "bold" },
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 });

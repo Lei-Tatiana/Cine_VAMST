@@ -17,12 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-<<<<<<< HEAD
 
-=======
-// Sirve para saber, desde el celular o el navegador, si la API y la base están vivas:
-//   http://TU_IP:3000/api/salud
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 app.get("/api/salud", async (req, res) => {
   try {
     await verificarConexion();
@@ -40,11 +35,7 @@ app.use("/api", candyRoutes);
 
 app.use(errorHandler);
 
-<<<<<<< HEAD
 const PORT = Number(process.env.PORT) || 3001;
-=======
-const PORT = Number(process.env.PORT) || 3000;
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 app.listen(PORT, async () => {
   console.log(`VAMST backend escuchando en http://localhost:${PORT}`);
   try {

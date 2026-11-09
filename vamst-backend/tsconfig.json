@@ -4,11 +4,7 @@
     "module": "node16",
     "moduleResolution": "node16",
     "lib": ["es2022"],
-<<<<<<< HEAD
     "types": ["node"],
-=======
-    "types": ["node","express","bcrypt","cors"],
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     "rootDir": "src",
     "outDir": "dist",
     "strict": true,

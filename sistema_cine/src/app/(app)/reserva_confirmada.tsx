@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-=======
-import { useEffect, useRef } from "react";
-import { Animated, Easing, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,10 +8,7 @@ import BotonRojo from "../../components/BotonRojo";
 import { colores } from "../../constants/colores";
 import { formatearPrecio } from "../../utils/formato";
 import { useMenuLateral } from "../../hooks/useMenuLateral";
-<<<<<<< HEAD
 import { useCarritoCandy } from "../../services/carrito";
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
 type Params = {
   reservaId?: string;
@@ -43,11 +35,8 @@ export default function ReservaConfirmada() {
   const p = useLocalSearchParams<Params>();
   const escala = useRef(new Animated.Value(0.6)).current;
   const opacidad = useRef(new Animated.Value(0)).current;
-<<<<<<< HEAD
   const [candyVisible, setCandyVisible] = useState(false);
   const { cantidadTotal: cantidadCarrito } = useCarritoCandy();
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
   useEffect(() => {
     Animated.parallel([
@@ -56,7 +45,6 @@ export default function ReservaConfirmada() {
     ]).start();
   }, [escala, opacidad]);
 
-<<<<<<< HEAD
   useEffect(() => {
     const temporizador = setTimeout(() => setCandyVisible(true), 900);
     return () => clearTimeout(temporizador);
@@ -67,8 +55,6 @@ export default function ReservaConfirmada() {
     router.push("/tienda");
   };
 
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   const asientos = p.asientos ? p.asientos.split(",").filter(Boolean) : [];
 
   return (
@@ -131,7 +117,6 @@ export default function ReservaConfirmada() {
           <Text style={estilos.secundarioTexto}>Ver la dulcería</Text>
         </Pressable>
       </View>
-<<<<<<< HEAD
 
       <Modal visible={candyVisible} transparent animationType="fade" onRequestClose={() => setCandyVisible(false)}>
         <View style={estilos.modalFondo}>
@@ -157,8 +142,6 @@ export default function ReservaConfirmada() {
           </View>
         </View>
       </Modal>
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     </SafeAreaView>
   );
 }
@@ -207,7 +190,6 @@ const estilos = StyleSheet.create({
   secundario: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, paddingVertical: 10 },
   secundarioPresionado: { opacity: 0.6 },
   secundarioTexto: { color: colores.gris, fontSize: 14 },
-<<<<<<< HEAD
   modalFondo: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.65)",
@@ -239,6 +221,4 @@ const estilos = StyleSheet.create({
   modalBoton: { width: "100%" },
   modalSecundario: { paddingVertical: 10, marginTop: 4 },
   modalSecundarioTexto: { color: colores.gris, fontSize: 14, fontWeight: "600" },
-=======
->>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 });
