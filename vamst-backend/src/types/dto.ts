@@ -2,7 +2,10 @@ export interface CrearReservaDTO {
   usuarioId: number;
   funcionId: number;
   asientosIds: number[];
+<<<<<<< HEAD
   metodoPago?: "tarjeta" | "mercadopago" | "efectivo";
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 }
 
 export interface RegistroUsuarioDTO {
@@ -20,23 +23,37 @@ export interface RespuestaError { ok: false; error: { mensaje: string }; }
 
 export interface ReservaCreadaDTO { id: number; codigo: string; total: number; }
 
+<<<<<<< HEAD
 
+=======
+// Una reserva ya hecha, con todo lo necesario para dibujar el ticket (GET /usuarios/:id/reservas)
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 export interface ReservaDetalleDTO {
   id: number;
   codigo: string;
   estado: string;
   total: number;
+<<<<<<< HEAD
   metodoPago: string | null;
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   creadaEn: string;
   pelicula: string;
   formato: string;
   fechaHora: string;
   sala: string;
+<<<<<<< HEAD
   asientos: string[]; 
+=======
+  asientos: string[]; // ["A1", "A2"]
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 }
 
 export interface CrearPedidoCandyDTO {
   usuarioId?: number;
   items: { productoId: number; cantidad: number }[];
+<<<<<<< HEAD
   metodoPago?: "tarjeta" | "mercadopago" | "efectivo";
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 }

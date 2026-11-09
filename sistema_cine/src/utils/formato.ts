@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import type { MetodoPago } from "../models/tipos";
 
 const DIAS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
@@ -13,6 +14,11 @@ export function etiquetaMetodoPago(metodo: MetodoPago | null): string {
   return metodo ? etiquetasMetodoPago[metodo] : "No registrado";
 }
 
+=======
+const DIAS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+const MESES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 export function formatearPrecio(valor: number): string {
   return `$${Number(valor).toLocaleString("es-AR")}`;
 }

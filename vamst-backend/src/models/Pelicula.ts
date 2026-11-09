@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 export type EstadoPelicula = "estreno" | "preventa" | "proximo";
 
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 export class Pelicula {
   constructor(
     public readonly id: number,
@@ -8,8 +11,12 @@ export class Pelicula {
     private duracionMin: number,
     private clasificacion: string,
     private genero: string,
+<<<<<<< HEAD
     private posterUrl: string,
     private estado: EstadoPelicula
+=======
+    private posterUrl: string
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   ) {}
 
   getTitulo(): string {
@@ -30,9 +37,12 @@ export class Pelicula {
   getPosterUrl(): string {
     return this.posterUrl;
   }
+<<<<<<< HEAD
   getEstado(): EstadoPelicula {
     return this.estado;
   }
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
   toJSON(){
     return{
@@ -42,8 +52,12 @@ export class Pelicula {
       duracionMin: this.duracionMin,
       clasificacion: this.clasificacion,
       genero: this.genero,
+<<<<<<< HEAD
       posterUrl: this.posterUrl,
       estado: this.estado
+=======
+      posterUrl: this.posterUrl
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     }
   }
 }

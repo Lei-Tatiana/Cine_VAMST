@@ -20,6 +20,7 @@ export const UsuarioRepository = {
     const f = filas[0];
     return new Usuario(f.id, f.nombre, f.email, f.password_hash);
   },
+<<<<<<< HEAD
 
   async guardarCodigoRecuperacion(email: string, codigo: string): Promise<void> {
     await pool.query("DELETE FROM codigos_recuperacion WHERE email = ?", [email]);
@@ -44,4 +45,6 @@ export const UsuarioRepository = {
   async actualizarPasswordHash(email: string, passwordHash: string): Promise<void> {
     await pool.query("UPDATE usuarios SET password_hash = ? WHERE email = ?", [passwordHash, email]);
   },
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 };

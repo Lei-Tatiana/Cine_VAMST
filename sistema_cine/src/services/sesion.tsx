@@ -3,22 +3,31 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Usuario } from "../models/tipos";
 
 const CLAVE = "vamst.usuario";
+<<<<<<< HEAD
 const CLAVE_AVATARES = "vamst.avatares";
 
 type AvataresGuardados = Record<string, string>;
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
 type Sesion = {
   usuario: Usuario | null;
   cargando: boolean;
+<<<<<<< HEAD
   avatar: string | null;
   iniciarSesion: (usuario: Usuario) => Promise<void>;
   cerrarSesion: () => Promise<void>;
   elegirAvatar: (avatar: string) => Promise<void>;
+=======
+  iniciarSesion: (usuario: Usuario) => Promise<void>;
+  cerrarSesion: () => Promise<void>;
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 };
 
 const Contexto = createContext<Sesion>({
   usuario: null,
   cargando: true,
+<<<<<<< HEAD
   avatar: null,
   iniciarSesion: async () => {},
   cerrarSesion: async () => {},
@@ -44,6 +53,20 @@ export function SesionProvider({ children }: { children: ReactNode }) {
       .then(([guardado, guardadosAvatares]) => {
         setUsuario(leerJson<Usuario | null>(guardado, null));
         setAvatares(leerJson<AvataresGuardados>(guardadosAvatares, {}));
+=======
+  iniciarSesion: async () => {},
+  cerrarSesion: async () => {},
+});
+
+export function SesionProvider({ children }: { children: ReactNode }) {
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    AsyncStorage.getItem(CLAVE)
+      .then((guardado) => {
+        if (guardado) setUsuario(JSON.parse(guardado));
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
       })
       .finally(() => setCargando(false));
   }, []);
@@ -58,6 +81,7 @@ export function SesionProvider({ children }: { children: ReactNode }) {
     setUsuario(null);
   };
 
+<<<<<<< HEAD
   const elegirAvatar = async (avatar: string) => {
     if (!usuario) return;
     const nuevo = { ...avatares, [String(usuario.id)]: avatar };
@@ -69,9 +93,17 @@ export function SesionProvider({ children }: { children: ReactNode }) {
 
   return (
     <Contexto.Provider value={{ usuario, cargando, avatar, iniciarSesion, cerrarSesion, elegirAvatar }}>
+=======
+  return (
+    <Contexto.Provider value={{ usuario, cargando, iniciarSesion, cerrarSesion }}>
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
       {children}
     </Contexto.Provider>
   );
 }
 
+<<<<<<< HEAD
 export const useSesion = () => useContext(Contexto);
+=======
+export const useSesion = () => useContext(Contexto);
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78

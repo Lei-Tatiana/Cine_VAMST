@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { ProductoCandyRepository } from "../repositories/ProductoCandyRepository";
 
+<<<<<<< HEAD
 const metodosPago = ["tarjeta", "mercadopago", "efectivo"];
 
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 export class CandyController {
   static async listar(req: Request, res: Response) {
     try{
@@ -16,11 +19,15 @@ export class CandyController {
 
   static async crearPedido(req: Request, res: Response) {
     try{
+<<<<<<< HEAD
       const {usuarioId, items, metodoPago} = req.body;
       if(!Number.isInteger(Number(usuarioId)) || Number(usuarioId) <= 0){
         return res.status(401).json({ok: false, error:{mensaje: "Iniciá sesión para comprar en el candy bar"}});
       }
       const metodo = metodosPago.includes(metodoPago) ? metodoPago : "tarjeta";
+=======
+      const {usuarioId, items} = req.body;
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
       if(!Array.isArray(items) || items.length === 0){
         return res.status(400).json({ok: false, error:{mensaje: "El pedido está vacío"}});
       }
@@ -39,7 +46,11 @@ export class CandyController {
         total += producto.precio * cantidad;
       }
 
+<<<<<<< HEAD
       const pedidoId = await ProductoCandyRepository.crearPedido(Number(usuarioId), detalle, total, metodo);
+=======
+      const pedidoId = await ProductoCandyRepository.crearPedido(usuarioId ?? null, detalle, total);
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
       res.status(201).json({ok: true, data:{id: pedidoId, total}});
     } catch(e:any){
       res.status(500).json({ok: false, error:{mensaje: e.message}});

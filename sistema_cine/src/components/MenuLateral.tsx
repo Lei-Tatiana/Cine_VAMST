@@ -1,11 +1,17 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+<<<<<<< HEAD
 import { Image } from "expo-image";
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { usePathname, useRouter } from "expo-router";
 import type { DrawerContentComponentProps } from "expo-router/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
+<<<<<<< HEAD
 import { avatarPorId } from "../data/avatares";
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { useSesion } from "../services/sesion";
 
 type OpcionProps = {
@@ -24,12 +30,21 @@ function Opcion({ icono, texto, activa = false, onPress }: OpcionProps) {
   );
 }
 
+<<<<<<< HEAD
 // Contenido menú lateral.
 export default function MenuLateral({ navigation }: DrawerContentComponentProps) {
   const router = useRouter();
   const ruta = usePathname();
   const { usuario, avatar, cerrarSesion } = useSesion();
   const avatarElegido = avatarPorId(avatar);
+=======
+// Contenido del menú lateral. Lo dibuja el Drawer de src/app/_layout.tsx
+// (se abre con el botón ☰ o deslizando desde el borde izquierdo).
+export default function MenuLateral({ navigation }: DrawerContentComponentProps) {
+  const router = useRouter();
+  const ruta = usePathname();
+  const { usuario, cerrarSesion } = useSesion();
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
   const irA = (destino: string) => {
     navigation.closeDrawer();
@@ -44,6 +59,7 @@ export default function MenuLateral({ navigation }: DrawerContentComponentProps)
 
   return (
     <SafeAreaView style={estilos.panel}>
+<<<<<<< HEAD
       <View style={estilos.usuario}>
         {avatarElegido ? (
           <Image source={avatarElegido.imagen} style={estilos.avatar} contentFit="cover" />
@@ -55,6 +71,10 @@ export default function MenuLateral({ navigation }: DrawerContentComponentProps)
           <Text style={estilos.saludo}>Hola, {usuario ? usuario.nombre.split(" ")[0] : "cinéfilo"}</Text>
         </View>
       </View>
+=======
+      <Text style={estilos.titulo}>VAMST CINE</Text>
+      <Text style={estilos.saludo}>Hola, {usuario ? usuario.nombre.split(" ")[0] : "cinéfilo"} 👋</Text>
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
       <Opcion icono="film-outline" texto="Cartelera / Inicio" activa={ruta === "/elegir_pelicula" || ruta === "/"} onPress={() => irA("/elegir_pelicula")} />
       <Opcion icono="fast-food-outline" texto="Candy Bar / Tienda" activa={ruta === "/tienda"} onPress={() => irA("/tienda")} />
@@ -77,11 +97,16 @@ export default function MenuLateral({ navigation }: DrawerContentComponentProps)
 
 const estilos = StyleSheet.create({
   panel: { flex: 1, backgroundColor: colores.tarjeta, padding: 20 },
+<<<<<<< HEAD
   usuario: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 20 },
   usuarioInfo: { flex: 1 },
   avatar: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, borderColor: colores.rojo },
   titulo: { color: colores.rojo, fontSize: 20, fontWeight: "bold" },
   saludo: { color: colores.gris, marginTop: 2 },
+=======
+  titulo: { color: colores.rojo, fontSize: 22, fontWeight: "bold" },
+  saludo: { color: colores.gris, marginTop: 4, marginBottom: 20 },
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   opcion: {
     flexDirection: "row",
     alignItems: "center",

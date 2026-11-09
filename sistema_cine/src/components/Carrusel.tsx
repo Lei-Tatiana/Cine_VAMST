@@ -9,7 +9,10 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
+<<<<<<< HEAD
 import { Ionicons } from "@expo/vector-icons";
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { colores } from "../constants/colores";
 import { Promo } from "../data/promos";
 import { Image } from "expo-image";
@@ -17,11 +20,19 @@ import { Image } from "expo-image";
 type Props = {
   promos: Promo[];
   onPress: (promo: Promo) => void;
+<<<<<<< HEAD
   intervaloMs?: number; 
   margenHorizontal?: number; 
 };
 
 
+=======
+  intervaloMs?: number; // cada cuánto pasa solo a la siguiente
+  margenHorizontal?: number; // margen de la pantalla donde se coloca (para calcular el ancho)
+};
+
+// Carrusel de anuncios para la parte de arriba de la cartelera:
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHorizontal = 16 }: Props) {
   const { width } = useWindowDimensions();
   const ancho = width - margenHorizontal * 2;
@@ -37,7 +48,11 @@ export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHo
     lista.current?.scrollToOffset({ offset: nuevo * ancho, animated: true });
   };
 
+<<<<<<< HEAD
 
+=======
+  // Avance automático (se pausa mientras el usuario tiene el dedo encima)
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   useEffect(() => {
     if (promos.length < 2) return;
     const reloj = setInterval(() => {
@@ -45,6 +60,10 @@ export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHo
       irA((indiceActual.current + 1) % promos.length);
     }, intervaloMs);
     return () => clearInterval(reloj);
+<<<<<<< HEAD
+=======
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   }, [promos.length, intervaloMs, ancho]);
 
   const alTerminarDeDeslizar = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -69,6 +88,7 @@ export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHo
         onMomentumScrollEnd={alTerminarDeDeslizar}
         renderItem={({ item }) => (
           <Pressable style={[estilos.slide, { width: ancho }]} onPress={() => onPress(item)}>
+<<<<<<< HEAD
             <Image source={item.imagen} style={{ ...StyleSheet.absoluteFill }} contentFit="cover" transition={220} />
             
             <View style={estilos.capa} />
@@ -76,6 +96,12 @@ export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHo
             <View style={estilos.iconoBadge}>
               <Ionicons name={item.icono} size={18} color={colores.rojo} />
             </View>
+=======
+            {/* SOLUCIÓN: Usamos absoluteFill con los tres puntos para expandir el objeto */}
+            <Image source={item.imagen} style={{ ...StyleSheet.absoluteFill }} contentFit="cover" />
+            
+            <View style={estilos.capa} />
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
             
             <View style={estilos.texto}>
               <Text style={estilos.titulo} numberOfLines={1}>{item.titulo}</Text>
@@ -102,8 +128,13 @@ const estilos = StyleSheet.create({
     marginVertical: 10,
   },
   slide: {
+<<<<<<< HEAD
     height: 180,
     borderRadius: 16, 
+=======
+    height: 180, // Un poco más alto para lucir mejor los posters y diseños de cine
+    borderRadius: 16, // Bordes más suaves y modernos
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     overflow: "hidden",
     justifyContent: "flex-end",
     borderWidth: 1,
@@ -111,6 +142,7 @@ const estilos = StyleSheet.create({
     backgroundColor: colores.tarjeta,
   },
   capa: {
+<<<<<<< HEAD
   ...StyleSheet.absoluteFill,
   backgroundColor: "rgba(0, 0, 0, 0.45)",
 },
@@ -127,16 +159,30 @@ const estilos = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+=======
+  ...StyleSheet.absoluteFill, // Cambiado aquí también
+  backgroundColor: "rgba(0, 0, 0, 0.45)",
+},
+
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   texto: { 
     padding: 16, 
     gap: 4,
     width: "100%",
+<<<<<<< HEAD
     backgroundColor: "rgba(0,0,0,0.35)"
+=======
+    backgroundColor: "rgba(0,0,0,0.35)" // Refuerzo de contraste en la caja de texto
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   },
   titulo: { 
     color: "#ffffff", 
     fontSize: 19, 
+<<<<<<< HEAD
     fontWeight: "800",
+=======
+    fontWeight: "800", // Más robusto
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3

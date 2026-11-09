@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
+<<<<<<< HEAD
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+=======
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,6 +11,7 @@ import Encabezado from "../../components/Encabezado";
 import TarjetaPelicula from "../../components/TarjetaPelicula";
 import BotonRojo from "../../components/BotonRojo";
 import Carrusel from "../../components/Carrusel";
+<<<<<<< HEAD
 import CarruselPeliculas from "../../components/CarruselPeliculas";
 import TituloSeccion from "../../components/TituloSeccion";
 import Aparicion from "../../components/Aparicion";
@@ -66,6 +71,22 @@ export default function ElegirPelicula() {
   const [error, setError] = useState("");
   const [busqueda, setBusqueda] = useState("");
   const [anchoGrilla, setAnchoGrilla] = useState(0);
+=======
+import { colores } from "../../constants/colores";
+import { PROMOS } from "../../data/promos";
+import { useMenuLateral } from "../../hooks/useMenuLateral";
+import { getPeliculas } from "../../services/api";
+import { useSesion } from "../../services/sesion";
+import { Pelicula } from "../../models/tipos";
+
+export default function ElegirPelicula() {
+  useMenuLateral(true);
+  const router = useRouter();
+  const { usuario } = useSesion();
+  const [peliculas, setPeliculas] = useState<Pelicula[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState("");
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 
   const cargar = useCallback(() => {
     setCargando(true);
@@ -78,6 +99,7 @@ export default function ElegirPelicula() {
 
   useEffect(cargar, [cargar]);
 
+<<<<<<< HEAD
   const avatarElegido = avatarPorId(avatar);
   const estrenos = peliculas.filter((p) => p.estado === "estreno");
   const destacadas = (estrenos.length > 0 ? estrenos : peliculas).slice(0, 5);
@@ -93,17 +115,23 @@ export default function ElegirPelicula() {
   const anchoTarjeta =
     anchoGrilla > 0 ? (anchoGrilla - 32 - 12 * (columnas - 1)) / columnas : undefined;
 
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   return (
     <SafeAreaView style={estilos.pantalla}>
       <Encabezado
         titulo="VAMST CINE"
         derecha={
           <Pressable onPress={() => router.push("/registro")} style={estilos.login} hitSlop={8}>
+<<<<<<< HEAD
             {avatarElegido ? (
               <Image source={avatarElegido.imagen} style={estilos.avatar} contentFit="cover" />
             ) : (
               <Ionicons name="person-circle-outline" size={28} color={colores.texto} />
             )}
+=======
+            <Ionicons name="person" size={20} color={colores.texto} />
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
             <Text style={estilos.loginTexto}>{usuario ? usuario.nombre.split(" ")[0] : "Login"}</Text>
           </Pressable>
         }
@@ -112,7 +140,10 @@ export default function ElegirPelicula() {
       {cargando ? (
         <View style={estilos.centro}>
           <ActivityIndicator size="large" color={colores.rojo} />
+<<<<<<< HEAD
           <Text style={estilos.cargandoTexto}>Preparando la cartelera…</Text>
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
         </View>
       ) : error ? (
         <View style={estilos.centro}>
@@ -125,6 +156,7 @@ export default function ElegirPelicula() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={estilos.contenido}>
+<<<<<<< HEAD
           <Aparicion style={estilos.bienvenida}>
             <Text style={estilos.overline}>CARTELERA</Text>
             <Text style={estilos.tituloGrande}>Hola, {nombre}</Text>
@@ -260,6 +292,22 @@ export default function ElegirPelicula() {
           </Aparicion>
             </>
           )}
+=======
+          <Carrusel promos={PROMOS} onPress={() => router.push("/promociones")} />
+
+          <Text style={estilos.seccion}>En cartelera</Text>
+          <View style={estilos.fila}>
+            {peliculas.map((p) => (
+              <TarjetaPelicula
+                key={p.id}
+                titulo={p.titulo}
+                posterUrl={p.posterUrl}
+                boton="Comprar"
+                onPress={() => router.push({ pathname: "/detalle_pelicula", params: { id: String(p.id) } })}
+              />
+            ))}
+          </View>
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
         </ScrollView>
       )}
     </SafeAreaView>
@@ -268,6 +316,7 @@ export default function ElegirPelicula() {
 
 const estilos = StyleSheet.create({
   pantalla: { flex: 1, backgroundColor: colores.fondo },
+<<<<<<< HEAD
   contenido: { paddingTop: 18, paddingBottom: 44 },
   login: { flexDirection: "row", alignItems: "center", gap: 6 },
   avatar: { width: 30, height: 30, borderRadius: 15, borderWidth: 1, borderColor: colores.rojo },
@@ -337,4 +386,15 @@ const estilos = StyleSheet.create({
     borderColor: colores.tarjeta,
   },
   accesoBadgeTexto: { color: colores.texto, fontSize: 10, fontWeight: "800" },
+=======
+  contenido: { padding: 16, paddingBottom: 40 },
+  login: { flexDirection: "row", alignItems: "center", gap: 4 },
+  loginTexto: { color: colores.texto },
+  centro: { flex: 1, alignItems: "center", justifyContent: "center", padding: 24, gap: 10 },
+  errorTexto: { color: colores.texto, fontSize: 18, fontWeight: "bold", marginTop: 8 },
+  errorDetalle: { color: colores.gris, textAlign: "center" },
+  reintentar: { marginTop: 12, width: "60%" },
+  seccion: { color: colores.texto, fontSize: 18, fontWeight: "bold", marginTop: 24, marginBottom: 12, textAlign: "center" },
+fila: { flexDirection: "row", flexWrap: "wrap", gap: 16, justifyContent: "center" },
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
 });

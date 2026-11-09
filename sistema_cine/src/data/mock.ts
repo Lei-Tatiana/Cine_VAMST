@@ -10,7 +10,10 @@ export const peliculasMock: Pelicula[] = [
     clasificacion: "+13",
     genero: "Acción",
     posterUrl: "https://placehold.co/300x450/1e1e1e/ffffff?text=Batman",
+<<<<<<< HEAD
     estado: "estreno",
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   },
   {
     id: 2,
@@ -20,7 +23,10 @@ export const peliculasMock: Pelicula[] = [
     clasificacion: "ATP",
     genero: "Animación",
     posterUrl: "https://placehold.co/300x450/1e1e1e/ffffff?text=Intensamente+2",
+<<<<<<< HEAD
     estado: "estreno",
+=======
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   },
 ];
 
@@ -47,6 +53,10 @@ export const asientosMock: Asiento[] = ["A", "B", "C", "D", "E"].flatMap((fila, 
 
 export const productosCandyMock: ProductoCandy[] = [
   { id: 1, nombre: "Combo Pochoclo + Gaseosa", categoria: "combos", precio: 7500, stock: 50 },
+<<<<<<< HEAD
   { id: 2, nombre: "Gaseosa grande", categoria: "bebidas", precio: 3001, stock: 80 },
+=======
+  { id: 2, nombre: "Gaseosa grande", categoria: "bebidas", precio: 3000, stock: 80 },
+>>>>>>> ffb8e81d329bc0e2e3d67c48a118482b80e36e78
   { id: 3, nombre: "Chocolate", categoria: "golosinas", precio: 2000, stock: 40 },
 ];
