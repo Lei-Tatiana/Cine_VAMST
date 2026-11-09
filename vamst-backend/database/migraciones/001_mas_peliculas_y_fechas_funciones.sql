@@ -1,6 +1,5 @@
 -- 001: películas adicionales, más funciones y posters reales.
--- Se puede correr más de una vez: las películas se insertan solo si faltan
--- y los posters se actualizan por título para las bases ya migradas.
+
 SET NAMES utf8mb4;
 USE vamst;
 

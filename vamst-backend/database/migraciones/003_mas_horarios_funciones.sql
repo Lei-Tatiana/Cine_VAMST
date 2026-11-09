@@ -1,7 +1,5 @@
 USE vamst;
 
--- 1) Las películas en cartelera que todavía no tenían funciones reciben
---    una programación base de 3 días con 5 horarios por día.
 INSERT INTO funciones (pelicula_id, sala_id, fecha_hora, formato, precio_base)
 SELECT p.id,
        CASE WHEN p.id % 2 = 0 THEN 2 ELSE 1 END,
@@ -23,8 +21,7 @@ WHERE p.estado = 'estreno'
   AND NOT EXISTS (SELECT 1 FROM funciones f WHERE f.pelicula_id = p.id)
 ORDER BY p.id, d.dia, h.hora;
 
--- 2) Más horarios por día para todas las funciones ya programadas.
---    Se agregan 11:00, 12:45, 18:30 y 22:30 sin duplicar los existentes.
+
 INSERT INTO funciones (pelicula_id, sala_id, fecha_hora, formato, precio_base)
 SELECT f.pelicula_id, f.sala_id,
        TIMESTAMP(f.fecha, h.hora),

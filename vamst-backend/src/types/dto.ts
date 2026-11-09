@@ -20,7 +20,7 @@ export interface RespuestaError { ok: false; error: { mensaje: string }; }
 
 export interface ReservaCreadaDTO { id: number; codigo: string; total: number; }
 
-// Una reserva ya hecha, con todo lo necesario para dibujar el ticket (GET /usuarios/:id/reservas)
+
 export interface ReservaDetalleDTO {
   id: number;
   codigo: string;
@@ -32,7 +32,7 @@ export interface ReservaDetalleDTO {
   formato: string;
   fechaHora: string;
   sala: string;
-  asientos: string[]; // ["A1", "A2"]
+  asientos: string[]; 
 }
 
 export interface CrearPedidoCandyDTO {

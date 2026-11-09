@@ -24,8 +24,7 @@ function Opcion({ icono, texto, activa = false, onPress }: OpcionProps) {
   );
 }
 
-// Contenido del menú lateral. Lo dibuja el Drawer de src/app/_layout.tsx
-// (se abre con el botón ☰ o deslizando desde el borde izquierdo).
+// Contenido menú lateral.
 export default function MenuLateral({ navigation }: DrawerContentComponentProps) {
   const router = useRouter();
   const ruta = usePathname();

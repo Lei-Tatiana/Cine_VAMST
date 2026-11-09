@@ -24,7 +24,7 @@
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"
   },
-  "description": "Cada archivo tiene comentarios `// TODO:` marcando qué falta escribir. Segui el orden sugerido para que en cada paso tengas algo que probar.",
+  "description": "API REST del sistema de cine VAMST (Express + TypeScript + MySQL).",
   "main": "index.js",
   "keywords": [],
   "author": "",

@@ -28,7 +28,7 @@ const ETIQUETA: Record<Pelicula["estado"], { texto: string; color: string }> = {
   proximo: { texto: "PRÓXIMAMENTE", color: colores.gris },
 };
 
-// Carrusel destacado del inicio: muestra películas con su póster y una llamada a la acción.
+// Carrusel de películas.
 export default function CarruselPeliculas({ peliculas, onPress, intervaloMs = 5000, margenHorizontal = 16 }: Props) {
   const { width } = useWindowDimensions();
   const ancho = width - margenHorizontal * 2;
@@ -51,7 +51,7 @@ export default function CarruselPeliculas({ peliculas, onPress, intervaloMs = 50
       irA((indiceActual.current + 1) % peliculas.length);
     }, intervaloMs);
     return () => clearInterval(reloj);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [peliculas.length, intervaloMs, ancho]);
 
   const alTerminarDeDeslizar = (e: NativeSyntheticEvent<NativeScrollEvent>) => {

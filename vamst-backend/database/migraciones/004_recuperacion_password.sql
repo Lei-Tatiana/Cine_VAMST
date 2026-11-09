@@ -1,5 +1,5 @@
 -- 004: códigos para restablecer la contraseña.
--- Sin servicio de mail: el código se devuelve a la app y se muestra en pantalla.
+
 SET NAMES utf8mb4;
 USE vamst;
 

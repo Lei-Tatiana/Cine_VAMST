@@ -26,7 +26,7 @@ CREATE TABLE peliculas (
 CREATE TABLE salas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
-  formato VARCHAR(20),      -- ej: "2D", "3D", "4DX"
+  formato VARCHAR(20),      
   filas INT NOT NULL,
   columnas INT NOT NULL
 );
@@ -59,13 +59,13 @@ CREATE TABLE reservas (
   usuario_id INT NOT NULL,
   funcion_id INT NOT NULL,
   total DECIMAL(10,2) NOT NULL,
+  metodo_pago ENUM('tarjeta', 'mercadopago', 'efectivo') NULL,
   estado ENUM('pendiente', 'confirmada', 'cancelada') DEFAULT 'confirmada',
   creada_en DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
   FOREIGN KEY (funcion_id) REFERENCES funciones(id)
 );
 
- asiento
 
 CREATE TABLE reserva_asientos (
   reserva_id INT NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE reserva_asientos (
 CREATE TABLE productos_candy (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
-  categoria VARCHAR(50),   -- ej: "combos", "bebidas", "golosinas"
+  categoria VARCHAR(50),   
   precio DECIMAL(10,2) NOT NULL,
   stock INT DEFAULT 0
 );
@@ -92,6 +92,18 @@ CREATE TABLE pedidos_candy (
   usuario_id INT NULL,
   items JSON NOT NULL,
   total DECIMAL(10,2) NOT NULL,
+  metodo_pago ENUM('tarjeta', 'mercadopago', 'efectivo') NULL,
   creada_en DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+
+CREATE TABLE codigos_recuperacion (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(150) NOT NULL,
+  codigo CHAR(6) NOT NULL,
+  expira_en DATETIME NOT NULL,
+  usado TINYINT(1) NOT NULL DEFAULT 0,
+  creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_recuperacion_email (email)
 );

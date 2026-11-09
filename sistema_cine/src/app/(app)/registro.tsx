@@ -53,8 +53,7 @@ export default function Registro() {
     .finally(() => setCargandoTickets(false));
 }, [usuarioId]);
 
-  // Se vuelve a pedir cada vez que se entra a esta pantalla: así, después de comprar,
-  // el ticket nuevo aparece enseguida.
+
   useFocusEffect(cargarTickets);
 
   const avatarElegido = avatarPorId(avatar);
@@ -348,7 +347,7 @@ export default function Registro() {
                         <View style={estilos.codigoDemo}>
                           <Ionicons name="key-outline" size={18} color={colores.rojo} />
                           <Text style={estilos.codigoDemoTexto}>
-                            Tu código es <Text style={estilos.codigoDemoNumero}>{codigoDemo}</Text> (vence en 15 min, modo demo)
+                            Tu código es <Text style={estilos.codigoDemoNumero}>{codigoDemo}</Text> (vence en 15 min)
                           </Text>
                         </View>
                       ) : (

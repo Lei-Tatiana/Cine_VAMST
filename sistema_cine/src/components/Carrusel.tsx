@@ -17,11 +17,11 @@ import { Image } from "expo-image";
 type Props = {
   promos: Promo[];
   onPress: (promo: Promo) => void;
-  intervaloMs?: number; // cada cuánto pasa solo a la siguiente
-  margenHorizontal?: number; // margen de la pantalla donde se coloca (para calcular el ancho)
+  intervaloMs?: number; 
+  margenHorizontal?: number; 
 };
 
-// Carrusel de anuncios para la parte de arriba de la cartelera:
+
 export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHorizontal = 16 }: Props) {
   const { width } = useWindowDimensions();
   const ancho = width - margenHorizontal * 2;
@@ -37,7 +37,7 @@ export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHo
     lista.current?.scrollToOffset({ offset: nuevo * ancho, animated: true });
   };
 
-  // Avance automático (se pausa mientras el usuario tiene el dedo encima)
+
   useEffect(() => {
     if (promos.length < 2) return;
     const reloj = setInterval(() => {
@@ -45,7 +45,6 @@ export default function Carrusel({ promos, onPress, intervaloMs = 4000, margenHo
       irA((indiceActual.current + 1) % promos.length);
     }, intervaloMs);
     return () => clearInterval(reloj);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [promos.length, intervaloMs, ancho]);
 
   const alTerminarDeDeslizar = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -103,8 +102,8 @@ const estilos = StyleSheet.create({
     marginVertical: 10,
   },
   slide: {
-    height: 180, // Un poco más alto para lucir mejor los posters y diseños de cine
-    borderRadius: 16, // Bordes más suaves y modernos
+    height: 180,
+    borderRadius: 16, 
     overflow: "hidden",
     justifyContent: "flex-end",
     borderWidth: 1,
@@ -112,7 +111,7 @@ const estilos = StyleSheet.create({
     backgroundColor: colores.tarjeta,
   },
   capa: {
-  ...StyleSheet.absoluteFill, // Cambiado aquí también
+  ...StyleSheet.absoluteFill,
   backgroundColor: "rgba(0, 0, 0, 0.45)",
 },
   iconoBadge: {
@@ -132,12 +131,12 @@ const estilos = StyleSheet.create({
     padding: 16, 
     gap: 4,
     width: "100%",
-    backgroundColor: "rgba(0,0,0,0.35)" // Refuerzo de contraste en la caja de texto
+    backgroundColor: "rgba(0,0,0,0.35)"
   },
   titulo: { 
     color: "#ffffff", 
     fontSize: 19, 
-    fontWeight: "800", // Más robusto
+    fontWeight: "800",
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3

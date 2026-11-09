@@ -62,7 +62,7 @@ export class AuthController {
       await UsuarioRepository.guardarCodigoRecuperacion(email, codigo);
 
       if (!correoConfigurado) {
-        // Sin SMTP configurado la app muestra el código en pantalla (modo demo).
+
         return res.json({ ok: true, data: { enviado: false, codigo } });
       }
 

@@ -17,7 +17,7 @@ import { crearPedidoCandy, getProductosCandy } from "../../services/api";
 import { useSesion } from "../../services/sesion";
 import { useCarritoCandy } from "../../services/carrito";
 import { formatearPrecio } from "../../utils/formato";
-import { descripcionCandy, imagenCandy } from "../../data/candy";
+import { descripcionProducto, imagenCandy, imagenCategoria } from "../../data/candy";
 import { ProductoCandy, MetodoPago } from "../../models/tipos";
 
 export default function Tienda() {
@@ -111,7 +111,7 @@ export default function Tienda() {
         <ScrollView style={estilos.lista} contentContainerStyle={estilos.contenido}>
           <Aparicion>
             <View style={estilos.banner}>
-              <Image source={imagenCandy("combos")} style={StyleSheet.absoluteFill} contentFit="cover" transition={220} />
+              <Image source={imagenCategoria("combos")} style={StyleSheet.absoluteFill} contentFit="cover" transition={220} />
               <View style={estilos.bannerVelo} />
               <View style={estilos.bannerIcono}>
                 <Ionicons name="fast-food" size={22} color={colores.rojo} />
@@ -151,8 +151,8 @@ export default function Tienda() {
                 nombre={p.nombre}
                 precio={p.precio.toLocaleString("es-AR")}
                 categoria={p.categoria}
-                imagen={imagenCandy(p.categoria)}
-                descripcion={descripcionCandy[p.categoria]}
+                imagen={imagenCandy(p.nombre, p.categoria)}
+                descripcion={descripcionProducto(p.nombre, p.categoria)}
                 cantidad={carrito[p.id] ?? 0}
                 onAgregar={() => agregar(p.id)}
                 onQuitar={() => quitar(p.id)}
@@ -259,7 +259,7 @@ export default function Tienda() {
                 <ScrollView style={estilos.modalLista}>
                   {items.map((i) => (
                     <View key={i.id} style={estilos.item}>
-                      <Image source={imagenCandy(i.categoria)} style={estilos.itemFoto} contentFit="cover" />
+                      <Image source={imagenCandy(i.nombre, i.categoria)} style={estilos.itemFoto} contentFit="cover" />
                       <View style={estilos.itemInfo}>
                         <Text style={estilos.itemNombre}>{i.nombre}</Text>
                         <Text style={estilos.itemPrecio}>{formatearPrecio(i.precio)} c/u</Text>

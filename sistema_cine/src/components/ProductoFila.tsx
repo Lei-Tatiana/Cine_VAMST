@@ -29,7 +29,7 @@ export default function ProductoFila({ nombre, precio, categoria, imagen, descri
       <View style={estilos.info}>
         <Text style={estilos.categoria}>{categoria.toUpperCase()}</Text>
         <Text style={estilos.nombre} numberOfLines={1}>{nombre}</Text>
-        {descripcion ? <Text style={estilos.descripcion} numberOfLines={1}>{descripcion}</Text> : null}
+        {descripcion ? <Text style={estilos.descripcion} numberOfLines={2}>{descripcion}</Text> : null}
         <Text style={estilos.precio}>${precio}</Text>
       </View>
 
@@ -103,7 +103,7 @@ const estilos = StyleSheet.create({
   info: { flex: 1, gap: 1 },
   categoria: { color: colores.rojo, fontSize: 9, fontWeight: "800", letterSpacing: 0.8 },
   nombre: { color: colores.texto, fontWeight: "700", fontSize: 15 },
-  descripcion: { color: colores.gris, fontSize: 12 },
+  descripcion: { color: colores.gris, fontSize: 12, lineHeight: 16 },
   precio: { color: colores.texto, fontWeight: "800", fontSize: 15, marginTop: 2 },
   boton: {
     flexDirection: "row",

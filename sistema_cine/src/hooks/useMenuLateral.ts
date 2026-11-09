@@ -1,10 +1,7 @@
 import { useCallback } from "react";
 import { useFocusEffect, useNavigation } from "expo-router";
 
-// Las pantallas principales (cartelera, candy bar, promociones, cuenta) llaman a
-// useMenuLateral(true): se puede abrir el menú deslizando desde el borde izquierdo.
-// En las pantallas del flujo de compra el gesto queda desactivado, porque ahí
-// deslizar desde el borde tiene que servir para volver atrás.
+
 export function useMenuLateral(habilitado: boolean) {
   const navigation = useNavigation();
 

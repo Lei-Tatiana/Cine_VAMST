@@ -6,11 +6,8 @@ import { colores } from "../constants/colores";
 import { SesionProvider } from "../services/sesion";
 import { CarritoCandyProvider } from "../services/carrito";
 
-// El Drawer envuelve a TODA la app (que vive en el Stack de la carpeta (app)).
-// Así el menú lateral se abre deslizando desde el borde izquierdo hacia la derecha
-// o tocando el botón de hamburguesa. Navegar entre pantallas funciona igual que antes.
-// Solo las pantallas principales dejan abrir el menú con el dedo
-// (ver hooks/useMenuLateral.ts); en el resto queda desactivado.
+// Menú lateral izquierdo.
+
 export default function Layout() {
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: colores.fondo }}>

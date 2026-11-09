@@ -56,7 +56,7 @@ export interface ReservaCreada {
   total: number;
 }
 
-// Una reserva ya hecha, para dibujar el ticket en "Mis tickets" (GET /usuarios/:id/reservas)
+
 export interface ReservaDetalle {
   id: number;
   codigo: string;
@@ -84,7 +84,7 @@ export type RespuestaApi<T> =
 
 export interface PedidoCandy {
   id: number;
-  codigo: string; // "CANDY-00007"
+  codigo: string;
   total: number;
   metodoPago: MetodoPago | null;
   creadaEn: string;

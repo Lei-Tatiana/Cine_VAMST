@@ -4,7 +4,7 @@ import { colores } from "../constants/colores";
 import { ReservaDetalle } from "../models/tipos";
 import { formatearFecha, formatearHora, formatearPrecio, etiquetaMetodoPago } from "../utils/formato";
 
-// Ticket de una compra ya hecha. Se usa en "Mis tickets" del perfil.
+// Ticket de una compra ya hecha. 
 export default function TicketReserva({ reserva, pasada = false }: { reserva: ReservaDetalle; pasada?: boolean }) {
   const cantidad = reserva.asientos.length;
 

@@ -17,7 +17,7 @@ export class ReservaController {
       }
       const metodo = metodosPago.includes(metodoPago) ? metodoPago : "tarjeta";
 
-      // Los ids tienen que ser enteros positivos y sin repetir
+      // Los ids tienen que ser enteros positivos y sin repetir.
       const ids = asientosIds.map(Number);
       const idsValidos =
         Number.isInteger(Number(usuarioId)) && Number.isInteger(Number(funcionId)) &&
@@ -43,7 +43,7 @@ export class ReservaController {
         return res.status(400).json({ok: false, error:{mensaje: "Alguno de los asientos no existe"}});
       }
 
-      // Si alguno ya está ocupado, reservar() lanza un error: se responde 409 (conflicto)
+      // Si alguno ya está ocupado, reservar() lanza un error: se responde 409 (conflicto).
       if(seleccionados.some((a) => a.getEstado() === "ocupado")){
         return res.status(409).json({ok: false, error:{mensaje: "Alguno de los asientos ya fue reservado. Volvé a elegir."}});
       }
@@ -54,11 +54,11 @@ export class ReservaController {
       const reservaId = await ReservaRepository.crear(reserva, metodo);
       res.status(201).json({ok: true, data:{id: reservaId, codigo: codigoReserva(reservaId), total: reserva.getTotal()}});
     } catch (e:any){
-      // Dos personas eligieron el mismo asiento a la vez: lo frena el UNIQUE de reserva_asientos
+      // Dos personas eligieron el mismo asiento a la vez: lo frena el UNIQUE de reserva_asientos.
       if(e.code === "ER_DUP_ENTRY"){
         return res.status(409).json({ok: false, error:{mensaje: "Alguno de los asientos ya fue reservado. Volvé a elegir."}});
       }
-      // El usuario no existe (clave foránea)
+
       if(e.code === "ER_NO_REFERENCED_ROW_2"){
         return res.status(404).json({ok: false, error:{mensaje: "Usuario no encontrado. Volvé a iniciar sesión."}});
       }

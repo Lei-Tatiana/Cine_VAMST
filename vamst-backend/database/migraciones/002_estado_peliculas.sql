@@ -1,11 +1,9 @@
 -- 002: estado de las películas (estreno / preventa / proximo).
--- Se puede correr más de una vez: la columna se agrega solo si no existe
--- y las funciones de preventa solo se insertan si faltan.
+
 
 USE vamst;
 
--- MySQL no acepta ADD COLUMN IF NOT EXISTS (MariaDB sí), así que preguntamos
--- primero a information_schema si la columna ya está.
+
 SET @columna_existe := (
   SELECT COUNT(*)
   FROM information_schema.COLUMNS
@@ -24,8 +22,7 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
--- Las películas que ya existían quedan como 'estreno'. Solo cambiamos las
--- que se venden con anticipación o todavía no tienen funciones.
+
 UPDATE peliculas
 SET estado = 'preventa'
 WHERE titulo IN (
@@ -46,7 +43,6 @@ WHERE titulo IN (
   'Spider-Man Cruzando el Multiverso'
 );
 
--- Funciones de preventa: 3, 4 y 5 de diciembre de 2027 (14:30, 17:15 y 20:00).
 INSERT INTO funciones (pelicula_id, sala_id, fecha_hora, formato, precio_base)
 SELECT
   p.id,
